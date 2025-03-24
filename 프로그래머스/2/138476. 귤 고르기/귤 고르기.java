@@ -2,31 +2,24 @@ import java.util.*;
 
 class Solution {
     public int solution(int k, int[] tangerine) {
-        Arrays.sort(tangerine);
-        List<Integer> tCount = new ArrayList<>();
-        
-        int count = 1;
-        for(int i = 1; i < tangerine.length; i++){
-            if(tangerine[i-1] == tangerine[i]){
-                count++;
-            } else {
-                tCount.add(count);
-                count = 1;
-            }
-        }
-        tCount.add(count);
-        
-        Collections.sort(tCount, Collections.reverseOrder());
-        
         int answer = 0;
-        for(Integer c : tCount){
-            k -= c;
+        HashMap<Integer,Integer> map =new HashMap<>();
+
+        for (int t : tangerine) {
+            map.put(t, map.getOrDefault(t, 0) + 1);
+        }
+
+        List<Integer> list = new ArrayList<>(map.keySet());
+        list.sort((o1, o2) -> map.get(o2)-map.get(o1));
+
+        for(Integer key:list){
+            k -=map.get(key);
             answer++;
-            if(k <= 0){
-                return answer;
+            if(k<=0){
+                break;
             }
         }
-        
+
         return answer;
     }
 }
