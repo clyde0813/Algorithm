@@ -9,15 +9,15 @@ class Solution {
             {3,3,1,1,2,2,4,4,5,5}
         };
         
-        int[] count = IntStream.range(0,3)
+        int[] scores = IntStream.range(0,3)
             .map(i -> (int) IntStream.range(0, answers.length)
                 .filter(j -> answers[j] == patterns[i][j % patterns[i].length])
                  .count()
                 )
             .toArray();
         
-        int max = Arrays.stream(count).max().getAsInt();
+        int max = Arrays.stream(scores).max().getAsInt();
         
-        return IntStream.range(0, 3).filter(i -> count[i] == max).map(i -> i + 1).toArray();
+        return IntStream.range(0, 3).filter(i -> scores[i] == max).map(i -> i + 1).toArray();
     }
 }
