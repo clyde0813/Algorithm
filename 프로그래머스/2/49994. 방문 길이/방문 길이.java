@@ -1,77 +1,70 @@
 import java.util.*;
 
 class Solution {
-    private int count = 0;
-    private Set<String> set = new HashSet<>();
-    private Position position = new Position(0,0);
-    
     public int solution(String dirs) {
-        for(int i = 0; i<dirs.length(); i++){
-            char dir = dirs.charAt(i);
-            int pastX = position.getX();
-            int pastY = position.getY();
-            if(dir == 'U') {
-                position.moveUp();
-            } else if(dir == 'D') {
-                position.moveDown();
-            } else if(dir == 'R') {
-                position.moveRight();
-            } else if(dir == 'L') {
-                position.moveLeft();
+        Set<String> visited = new HashSet<>();
+        Position pos = new Position(0, 0);
+        int count = 0;
+        
+        for(char dir : dirs.toCharArray()) {
+            int prevX = pos.x;
+            int prevY = pos.y;
+            
+            pos.move(dir);
+            
+            int currX = pos.x;
+            int currY = pos.y;
+
+            if(prevX != currX || prevY != currY){
+                if(isNewPath(prevX, prevY, currX, currY, visited)) {
+                    count++;
+                }
             }
-            roadCount(pastX, pastY, position.getX(), position.getY());
         }
         
         return count;
     }
     
-    public void roadCount(int pastX, int pastY, int x, int y){
-        if(pastX == x && pastY == y) return;
+    private boolean isNewPath(int x1, int y1, int x2, int y2, Set<String> visited){
         StringBuilder sb1 = new StringBuilder();
-        sb1.append(pastX).append(pastY).append(x).append(y);
-        String road = sb1.toString();
+        sb1.append(x1).append(y1).append(x2).append(y2);
+        String path1 = sb1.toString();
         StringBuilder sb2 = new StringBuilder();
-        sb2.append(x).append(y).append(pastX).append(pastY);
-        String reverse = sb2.toString();
-        if(!set.contains(road) || !set.contains(reverse)){
-            set.add(road);
-            set.add(reverse);
-            count++;
+        sb2.append(x2).append(y2).append(x1).append(y1);
+        String path2 = sb2.toString();
+        
+        if(!visited.contains(path1)){
+            visited.add(path1);
+            visited.add(path2);
+            return true;
         }
+        return false;
     }
     
-    class Position {
-        public int x;
-        public int y;
+    static class Position {
+        int x;
+        int y;
         
-        public Position(int x, int y){
+        Position(int x, int y){
             this.x = x;
             this.y = y;
         }
         
-        public int getX(){
-            return this.x;
-        }
-        
-        public int getY(){
-            return this.y;
-        }
-        
-        public void moveUp(){
-            if(this.y < 5) this.y++;
-        }
-        
-        public void moveDown(){
-            if(this.y > -5) this.y--;
-        }
-        
-        public void moveRight(){
-            if(this.x < 5) this.x++;
-        }
-        
-        public void moveLeft(){
-            if(this.x > -5) this.x--;
+        void move(char dir){
+            switch (dir) {
+                case 'U':
+                    if(y < 5) y++;
+                    break;
+                case 'D':
+                    if(y > -5) y--;
+                    break;
+                case 'R':
+                    if(x < 5) x++;
+                    break;
+                case 'L':
+                    if(x > -5) x--;
+                    break;
+            }
         }
     }
-    
 }
