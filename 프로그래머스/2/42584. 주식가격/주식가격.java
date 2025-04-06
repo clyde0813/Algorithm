@@ -2,7 +2,29 @@ import java.util.*;
 
 class Solution {
     public int[] solution(int[] prices) {
-		return solutionWithDeque(prices);
+		return solutionWithArray(prices);
+    }
+    
+    public int[] solutionWithArray(int[] prices){
+        int n = prices.length;
+        int[] stack = new int[n];
+        int[] answer = new int[n];
+        
+        int idx = -1;
+        for(int i = 0; i<n; i++){
+            if(idx != -1 && prices[stack[idx]] > prices[i]) {
+                while(idx != -1 && prices[stack[idx]] > prices[i]){
+                    answer[stack[idx]] = i - stack[idx--];
+                }
+            }
+            stack[++idx] = i;
+        }
+        
+        for(int i = 0; i<n-1; i++){
+            if(answer[i] == 0) answer[i] = n - 1 - i;
+        }
+        
+        return answer;
     }
     
     public int[] solutionWithDeque(int[] prices){
