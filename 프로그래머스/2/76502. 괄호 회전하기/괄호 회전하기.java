@@ -2,10 +2,11 @@ import java.util.*;
 
 class Solution {
     public int solution(String s) {
-        if(s.length() == 1) return 0;
+        int n = s.length();
+        if(n == 1) return 0;
         int answer = 0;
         StringBuilder sb = new StringBuilder(s);
-        for(int i = 0; i<s.length(); i++){
+        for(int i = 0; i<n; i++){
             if(checkBrace(sb.toString())){
                 answer++;
             }
@@ -22,11 +23,10 @@ class Solution {
             if(c == '(' || c == '{' || c == '[') deque.push(cs);
             else {
                 if(deque.isEmpty()) return false;
-                if(isMatching(deque.pop().charAt(0), cs.charAt(0))) continue;
-                else return false;
+                if(!isMatching(deque.pop().charAt(0), cs.charAt(0))) return false;
             }
         }
-        return (deque.isEmpty()) ? true : false;
+        return deque.isEmpty();
     }
     
     private boolean isMatching(char open, char close) {
