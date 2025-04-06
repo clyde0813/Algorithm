@@ -1,36 +1,14 @@
-import java.util.*;
-
 class Solution
 {
-    public int solution(String s){
-        return removePairsWithArray(s);
-    }
-    
-    // ArrayDeque 사용
-    public int removePairsWithDeque(String s)
+    public int solution(String s)
     {
-        Deque<Character> stack = new ArrayDeque<>();
-        for(char c : s.toCharArray()){
-            if(!stack.isEmpty() && stack.peek() == c){
-                stack.pop();
-            } else {
-                stack.push(c);
-            }
+        char[] arr = new char[s.length()];
+        int answer = -1;
+        for(int i = 0; i<s.length(); i++){
+            char c = s.charAt(i);
+            if(answer != -1 && arr[answer] == c) answer--;
+            else arr[++answer] = c;
         }
-        return stack.isEmpty() ? 1 : 0;
-    }
-    
-    // 배열 사용
-    public int removePairsWithArray(String s){
-        char[] stack = new char[s.length()];
-        int idx = -1;
-        for(char c : s.toCharArray()){
-            if(idx >= 0 && stack[idx] == c){
-                idx--;
-            } else {
-                stack[++idx] = c;
-            }
-        }
-        return idx == -1 ? 1 : 0;
+        return (answer == -1) ? 1 : 0;
     }
 }
