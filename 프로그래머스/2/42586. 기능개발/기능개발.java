@@ -2,23 +2,28 @@ import java.util.*;
 
 class Solution {
     public int[] solution(int[] progresses, int[] speeds) {
-        Deque<Integer> deque = new ArrayDeque<>();
         List<Integer> answer = new ArrayList<>();
+        int pLength = progresses.length;
+        if(pLength == 0) return new int[]{};
         
-        for(int i = 0; i<progresses.length; i++){
-            deque.add((100 - progresses[i] + speeds[i] - 1) / speeds[i]);
+        int[] days = new int[pLength];
+        for(int i = 0; i<pLength; i++){
+            days[i] = (100 - progresses[i] + speeds[i] - 1) / speeds[i];
         }
         
-        while(!deque.isEmpty()){
-            int base = deque.pollFirst();
-            int count = 1;
-            while(!deque.isEmpty() && deque.peekFirst() <= base){
-                deque.pollFirst();
-                count++;
+        int count = 1;
+        int base = days[0];
+        
+        for(int i = 1; i<pLength; i++){
+            if(days[i] <= base) count++;
+            else {
+                answer.add(count);
+                count = 1;
+                base = days[i];
             }
-            answer.add(count);
         }
-                 
-        return answer.stream().mapToInt(i -> i).toArray();
+        answer.add(count);
+        
+        return answer.stream().mapToInt(i->i).toArray();
     }
 }
