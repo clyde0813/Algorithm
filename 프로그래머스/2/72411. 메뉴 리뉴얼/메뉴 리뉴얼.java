@@ -22,7 +22,7 @@ class Solution {
                            .forEach(entry -> answer.add(entry.getKey()))
                 );
             // 이게 더 빠름
-            /**
+            /*
             for(Map.Entry<String, Integer> entry : hashmap.entrySet()){
                 if(entry.getValue()>=2){
                     maxOrder = entry.getValue() > maxOrder ? entry.getValue() : maxOrder;
@@ -31,7 +31,7 @@ class Solution {
             for(Map.Entry<String, Integer> entry : hashmap.entrySet()){
                 if(entry.getValue() == maxOrder) answer.add(entry.getKey());
             }
-            **/
+            */
         }
         Collections.sort(answer);
         return answer.toArray(String[]::new);
