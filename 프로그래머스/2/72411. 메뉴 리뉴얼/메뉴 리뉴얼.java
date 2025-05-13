@@ -12,6 +12,8 @@ class Solution {
                     combination(orderCharArray, new StringBuilder(), 0, c, hashmap);
                 }
             }
+            // 그냥 간지용
+            // 일반 루프(for)가 더 빠르다
             hashmap.values().stream()
                 .filter(o -> o >= 2)
                 .max(Comparator.comparingInt(o -> o))
@@ -19,6 +21,17 @@ class Solution {
                            .filter(entry -> entry.getValue() == maxOrder)
                            .forEach(entry -> answer.add(entry.getKey()))
                 );
+            // 이게 더 빠름
+            /**
+            for(Map.Entry<String, Integer> entry : hashmap.entrySet()){
+                if(entry.getValue()>=2){
+                    maxOrder = entry.getValue() > maxOrder ? entry.getValue() : maxOrder;
+                };
+            }
+            for(Map.Entry<String, Integer> entry : hashmap.entrySet()){
+                if(entry.getValue() == maxOrder) answer.add(entry.getKey());
+            }
+            **/
         }
         Collections.sort(answer);
         return answer.toArray(String[]::new);
