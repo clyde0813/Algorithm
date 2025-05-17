@@ -4,7 +4,7 @@ import java.util.stream.*;
 class Solution {
     private int answer = 0;
     private Map<Integer, List<Integer>> edgeMap = new HashMap<>();
-    private Set<String> visited = new HashSet<>();
+    // private Set<String> visited = new HashSet<>();
     
     public int solution(int[] info, int[][] edges) {
         for(int[] edge : edges){
@@ -18,9 +18,9 @@ class Solution {
         if(sheep <= wolf) return;
         answer = Math.max(sheep, answer);
         
-        String key = sheep + "," + wolf + "," + children.stream().sorted().map(Object::toString).collect(Collectors.joining(","));
-        if(visited.contains(key)) return;
-        visited.add(key);
+        // String key = sheep + "," + wolf + "," + children.stream().sorted().map(Object::toString).collect(Collectors.joining(","));
+        // if(visited.contains(key)) return;
+        // visited.add(key);
         
         for(Integer child : children){
             List<Integer> copy = new ArrayList<>(children);
