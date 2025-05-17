@@ -1,35 +1,47 @@
 import java.util.*;
-import java.util.stream.*;
 
 class Solution {
-    private int answer = 0;
-    private Map<Integer, List<Integer>> edgeMap = new HashMap<>();
-    // private Set<String> visited = new HashSet<>();
-    
+    List<Integer>[] tree;
+    int maxSheep = 0;
+    int n;
+    int[] info;
+
     public int solution(int[] info, int[][] edges) {
-        for(int[] edge : edges){
-            edgeMap.computeIfAbsent(edge[0], v -> new ArrayList<>()).add(edge[1]);
+        this.info = info;
+        n = info.length;
+        tree = new ArrayList[n];
+        for (int i = 0; i < n; i++) tree[i] = new ArrayList<>();
+        for (int[] edge : edges) {
+            tree[edge[0]].add(edge[1]);
         }
-        dfs(1, 0, edgeMap.get(0), info);
-        return answer;
+
+        int initMask = 0;
+        for (int child : tree[0]) {
+            initMask |= (1 << child);
+        }
+
+        dfs(1, 0, initMask);
+        return maxSheep;
     }
-    
-    private void dfs(int sheep, int wolf, List<Integer> children, int[] info){
-        if(sheep <= wolf) return;
-        answer = Math.max(sheep, answer);
-        
-        // String key = sheep + "," + wolf + "," + children.stream().sorted().map(Object::toString).collect(Collectors.joining(","));
-        // if(visited.contains(key)) return;
-        // visited.add(key);
-        
-        for(Integer child : children){
-            List<Integer> copy = new ArrayList<>(children);
-            if(edgeMap.containsKey(child)){
-                copy.addAll(edgeMap.get(child));
-            } 
-            copy.remove(child);
-            if(info[child]==0) dfs(sheep+1, wolf, copy, info);
-            else dfs(sheep, wolf+1, copy, info);
+
+    void dfs(int sheep, int wolf, int visitMask) {
+        maxSheep = Math.max(maxSheep, sheep);
+
+        for (int next = 0; next < n; next++) {
+            if ((visitMask & (1 << next)) == 0) continue;
+
+            int type = info[next];
+            int newSheep = sheep + (type == 0 ? 1 : 0);
+            int newWolf = wolf + (type == 1 ? 1 : 0);
+
+            if (newWolf >= newSheep) continue;
+
+            int nextMask = (visitMask & ~(1 << next));
+            for (int child : tree[next]) {
+                nextMask |= (1 << child);
+            }
+
+            dfs(newSheep, newWolf, nextMask);
         }
     }
 }
