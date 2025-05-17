@@ -1,8 +1,11 @@
 import java.util.*;
+import java.util.stream.*;
 
 class Solution {
     private int answer = 0;
     private Map<Integer, List<Integer>> edgeMap = new HashMap<>();
+    private Set<String> visited = new HashSet<>();
+    
     public int solution(int[] info, int[][] edges) {
         for(int[] edge : edges){
             edgeMap.computeIfAbsent(edge[0], v -> new ArrayList<>()).add(edge[1]);
@@ -15,9 +18,13 @@ class Solution {
         if(sheep <= wolf) return;
         answer = Math.max(sheep, answer);
         
+        String key = sheep + "," + wolf + "," + children.stream().sorted().map(Object::toString).collect(Collectors.joining(","));
+        if(visited.contains(key)) return;
+        visited.add(key);
+        
         for(Integer child : children){
             List<Integer> copy = new ArrayList<>(children);
-            if(edgeMap.get(child) != null){
+            if(edgeMap.containsKey(child)){
                 copy.addAll(edgeMap.get(child));
             } 
             copy.remove(child);
