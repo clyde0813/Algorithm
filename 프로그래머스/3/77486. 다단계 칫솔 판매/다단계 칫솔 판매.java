@@ -14,13 +14,13 @@ class Solution {
             Node sellerNode = dict.get(seller[i]);
             int sellerProfit = amount[i] * 100;
             while(sellerNode != null){
-                sellerNode.addProfit(sellerProfit - (int) (sellerProfit * 0.1));
+                sellerNode.profit += sellerProfit - (int) (sellerProfit * 0.1);
                 sellerProfit = (int) (sellerProfit * 0.1);
-                sellerNode = sellerNode.getParent();
+                sellerNode = sellerNode.parent;
             }
         }
         for(int i=0; i<enrollCount; i++){
-            answer[i] = dict.get(enroll[i]).getProfit();
+            answer[i] = dict.get(enroll[i]).profit;
         }
         return answer;
     }
@@ -33,18 +33,6 @@ class Solution {
             this.name = name;
             this.parent = parent;
             this.profit = 0;
-        }
-        public String getName(){
-            return this.name;
-        }
-        public Node getParent(){
-            return this.parent;
-        }
-        public int getProfit(){
-            return this.profit;
-        }
-        public void addProfit(int amount){
-            this.profit += amount;
         }
     }
 }
