@@ -6,11 +6,8 @@ class Solution {
         
         for(int i=0; i<words.length; i++){
             String word = words[i];
-            if(i>0 && word.charAt(0)!=words[i-1].charAt(words[i-1].length()-1)){
+            if(i>0 && word.charAt(0)!=words[i-1].charAt(words[i-1].length()-1) || !wordSet.add(word)){
                 System.out.println(i);
-                return new int[]{(i%n+1), (i/n+1)};
-            }
-            else if(!wordSet.add(word)){
                 return new int[]{(i%n+1), (i/n+1)};
             }
         }
