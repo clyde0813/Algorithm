@@ -10,10 +10,9 @@ class Solution {
                 System.out.println(i);
                 return new int[]{(i%n+1), (i/n+1)};
             }
-            else if(wordSet.contains(word)){
+            else if(!wordSet.add(word)){
                 return new int[]{(i%n+1), (i/n+1)};
             }
-            wordSet.add(word);
         }
 
         return new int[]{0,0};
