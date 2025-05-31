@@ -6,6 +6,7 @@ class Solution {
     }
     
     private int combine(int a, int b){
-        return Integer.parseInt(a+""+b);
+        StringBuilder sb = new StringBuilder();
+        return Integer.parseInt(sb.append(a).append(b).toString());
     }
 }
