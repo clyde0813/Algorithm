@@ -9,28 +9,19 @@ public class Main {
         int nodeCount = Integer.parseInt(st.nextToken());
         int edgeCount = Integer.parseInt(st.nextToken());
         
-        int[][] edges = new int[edgeCount][2];
+        int[] parent = new int[nodeCount];
+        for(int i=0; i<nodeCount; i++) parent[i] = i;
+        
         for(int i=0; i<edgeCount; i++){
             st = new StringTokenizer(br.readLine());
             int start = Integer.parseInt(st.nextToken()) - 1;
             int end = Integer.parseInt(st.nextToken()) - 1;
-            edges[i] = new int[]{start, end};
-        }
-        
-        int[] parent = new int[nodeCount];
-        for(int i=0; i<nodeCount; i++) parent[i] = i;
-        
-        for(int[] edge : edges){
-            union(parent, edge[0], edge[1]);
-        }
-​
-        for(int i=0; i<parent.length; i++){
-            find(parent, i);
+            union(parent, start, end);
         }
         
         Set<Integer> answerSet = new HashSet<>();
-        for(int p : parent){
-            answerSet.add(p);
+        for(int i=0; i<parent.length; i++){
+            answerSet.add(find(parent, i));
         }
         
         System.out.println(answerSet.size());
