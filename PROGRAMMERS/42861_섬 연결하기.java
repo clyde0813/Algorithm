@@ -11,13 +11,13 @@ class Solution {
         
         int answer = 0;
         int edges = 0;
-        
         for(int[] cost : costs){
             if(find(parent, cost[0]) == find(parent, cost[1])) continue;
             
             union(parent, cost[0], cost[1]);
             answer += cost[2];
-            if(edges++ == n-1) break;
+            edges++;
+            if(edges == n-1) break;
         }
         return answer;
     }
