@@ -1,6 +1,7 @@
 import java.util.*;
 
 class Solution {
+    private int[][] map;
     private int n, m;
     private int[][] dirs = {{1,0}, {-1,0}, {0,1}, {0,-1}};
     
@@ -11,25 +12,31 @@ class Solution {
         
         this.n = maps.length;
         this.m = maps[0].length();
+        this.map = new int[n][m];
         
         for(int i=0; i<n; i++){
             for(int j=0; j<m; j++){
+                int value = 0;
                 int chr = maps[i].charAt(j);
-                if(chr=='S') start = new int[]{i, j};
-                if(chr=='L') lever = new int[]{i,j};
-                if(chr=='E') exit = new int[]{i, j};
+                
+                if(chr=='X') value = 1;
+                else if(chr=='S') start = new int[]{i, j};
+                else if(chr=='L') lever = new int[]{i,j};
+                else if(chr=='E') exit = new int[]{i, j};
+                
+                this.map[i][j] = value;
             }
         }
         
-        int startToLever = bfs(maps, start, lever);
-        int leverToExit = bfs(maps, lever, exit);
+        int startToLever = bfs(start, lever);
+        int leverToExit = bfs(lever, exit);
         
         if(startToLever==-1 || leverToExit==-1) return -1;
         
         return startToLever + leverToExit;
     }
     
-    private int bfs(String[] maps, int[] start, int[] end){
+    private int bfs(int[] start, int[] end){
         boolean[][] visited = new boolean[n][m];
         Queue<int[]> queue = new LinkedList<>();
         
@@ -47,7 +54,7 @@ class Solution {
                 int dx = x+dir[1];
                 
                 if(!isInBound(dy, dx)) continue;
-                if(maps[dy].charAt(dx)=='X') continue;
+                if(map[dy][dx]==1) continue;
                 if(visited[dy][dx]) continue;
                 
                 visited[dy][dx] = true;
