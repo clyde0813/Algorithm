@@ -26,7 +26,7 @@ class Solution {
                 if(dist[cur] + next[1] > dist[next[0]]) continue;
                 
                 dist[next[0]] = dist[cur] + next[1]; 
-                pq.add(next);
+                pq.offer(new int[]{next[0], dist[next[0]]});
             }
         }
         
