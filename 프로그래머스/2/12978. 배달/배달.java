@@ -31,9 +31,7 @@ class Solution {
         }
         
         int answer = 0;
-        for(int d : dist){
-            if(d<=K) answer++;
-        }
+        for(int d : dist) if(d<=K) answer++;
         
         return answer;
     }
