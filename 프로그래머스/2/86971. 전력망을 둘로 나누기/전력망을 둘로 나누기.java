@@ -57,11 +57,9 @@ class Solution {
                 union(parent, wire[0]-1, wire[1]-1);
             }
             
-            for(int j=0; j<n; j++) find(parent, j);
-
-            int key = parent[0];
+            int key = find(parent, 0);
             int diff = 0;
-            for(int j=0; j<n; j++) if(parent[j]!=key) diff++;
+            for(int j=0; j<n; j++) if(find(parent, j)!=key) diff++;
             
             answer = Math.min(answer, Math.abs(n-(diff*2)));
         }
