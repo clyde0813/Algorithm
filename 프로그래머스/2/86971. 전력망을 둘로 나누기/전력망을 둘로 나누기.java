@@ -23,19 +23,18 @@ class Solution {
             }
 
             int count = dfs(graph, new boolean[n], 0);
-
             answer = Math.min(answer, Math.abs(n-(2*count)));
         }
         
         return answer;
     }
     
-    private int dfs(List<Integer>[] graph, boolean[] visited, int current){
-        visited[current] = true;
-        
+    private int dfs(List<Integer>[] graph, boolean[] visited, int node){
+        visited[node] = true;
         int count = 1;
-        for(int g : graph[current]){
-            if(visited[g]==true) continue;
+        
+        for(int g : graph[node]){
+            if(visited[g]) continue;
             
             count += dfs(graph, visited, g);
         }
