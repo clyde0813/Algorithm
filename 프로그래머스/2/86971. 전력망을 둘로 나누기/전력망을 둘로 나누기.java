@@ -2,7 +2,8 @@ import java.util.*;
 
 class Solution {
     public int solution(int n, int[][] wires) {
-        return dfsSolution(n, wires);
+        return findUnionSolution(n, wires);
+        // return dfsSolution(n, wires);
     }
     
     // dfs 풀이
@@ -43,7 +44,7 @@ class Solution {
     }
     
     // find-union 풀이
-    private int findUnion(int n, int[][] wires){
+    private int findUnionSolution(int n, int[][] wires){
         int answer = Integer.MAX_VALUE;
         
         for(int i=0; i<n-1; i++){            
