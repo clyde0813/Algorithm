@@ -2,6 +2,48 @@ import java.util.*;
 
 class Solution {
     public int solution(int n, int[][] wires) {
+        return dfsSolution(n, wires);
+    }
+    
+    // dfs 풀이
+    private int dfsSolution(int n, int[][] wires){
+        int answer = Integer.MAX_VALUE;
+        
+        for(int i=0; i<n; i++){
+            List<Integer>[] graph = new ArrayList[n];
+            for(int j=0; j<n; j++) graph[j] = new ArrayList<>();
+            
+            for(int j=0; j<n-1; j++){
+                if(i==j) continue;
+                
+                int[] wire = wires[j];
+                graph[wire[0]-1].add(wire[1]-1);
+                graph[wire[1]-1].add(wire[0]-1);
+            }
+
+            int count = dfs(graph, new boolean[n], 0);
+
+            answer = Math.min(answer, Math.abs(n-(2*count)));
+        }
+        
+        return answer;
+    }
+    
+    private int dfs(List<Integer>[] graph, boolean[] visited, int current){
+        visited[current] = true;
+        
+        int count = 1;
+        for(int g : graph[current]){
+            if(visited[g]==true) continue;
+            
+            count += dfs(graph, visited, g);
+        }
+        
+        return count;
+    }
+    
+    // find-union 풀이
+    private int findUnion(int n, int[][] wires){
         int answer = Integer.MAX_VALUE;
         
         for(int i=0; i<n-1; i++){            
