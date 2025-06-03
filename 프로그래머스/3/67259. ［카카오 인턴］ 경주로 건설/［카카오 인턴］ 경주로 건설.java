@@ -24,12 +24,12 @@ class Solution {
                 int dy = y+dir[0], dx = x+dir[1];
                 if(!isInBountAndRoad(dy, dx)) continue;
                 
-                int tmpCost = cost + 100;
-                if(direction!=-1 && direction!=i) tmpCost += 500;
-                if(map[dy][dx][i] <= tmpCost) continue;
+                int newCost = cost + 100;
+                if(direction!=-1 && direction!=i) newCost += 500;
+                if(map[dy][dx][i] <= newCost) continue;
                 
-                map[dy][dx][i] = tmpCost;
-                queue.offer(new int[]{dy, dx, i, tmpCost});
+                map[dy][dx][i] = newCost;
+                queue.offer(new int[]{dy, dx, i, newCost});
             }
         }
 
