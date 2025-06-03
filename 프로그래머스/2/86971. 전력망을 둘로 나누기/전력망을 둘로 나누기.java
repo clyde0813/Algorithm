@@ -3,26 +3,23 @@ import java.util.*;
 class Solution {
     public int solution(int n, int[][] wires) {
         int answer = Integer.MAX_VALUE;
-        int wiresL = n-1;
         
-        for(int i=0; i<wiresL; i++){            
+        for(int i=0; i<n-1; i++){            
             int[] parent = new int[n];
             for(int j=0; j<n; j++) parent[j] = j;
             
-            for(int j=0; j<wiresL; j++){
+            for(int j=0; j<n-1; j++){
                 if(i==j) continue;
                 
                 int[] wire = wires[j];
                 union(parent, wire[0]-1, wire[1]-1);
             }
             
-            for(int j=0; j<n; j++) parent[j] = find(parent, j);
+            for(int j=0; j<n; j++) find(parent, j);
 
             int key = parent[0];
             int diff = 0;
-            for(int j=0; j<n; j++){
-                if(parent[j]!=key) diff++;
-            }
+            for(int j=0; j<n; j++) if(parent[j]!=key) diff++;
             
             answer = Math.min(answer, Math.abs(n-(diff*2)));
         }
