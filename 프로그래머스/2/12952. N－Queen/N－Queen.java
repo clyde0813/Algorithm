@@ -19,15 +19,17 @@ class Solution {
     private static void dfs(int y, int count){
         for(int x=0; x<n; x++){
             if(!isAvailable(x, y)) continue;
+            
             if(count==n){
                 answer++;
                 return;
             }
-            if(y+1<n){
+            else if(y+1<n){
                 setStatus(x, y, true);
                 dfs(y+1, count+1);
                 setStatus(x, y, false);
-            } else return;
+            }
+            else return;
         }
         return;
     }
