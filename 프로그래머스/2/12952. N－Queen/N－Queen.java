@@ -11,37 +11,34 @@ class Solution {
         this.diagonalRight = new boolean[n*2-1];
         this.diagonalLeft = new boolean[n*2-1];
         
-        dfs(0, 1);
+        dfs(0);
         
         return answer;
     }
     
-    private static void dfs(int y, int count){
-        for(int x=0; x<n; x++){
+    private static void dfs(int y) {
+        if(y==n) { 
+            answer++;
+            return;
+        }
+        
+        for(int x=0; x<n; x++) {
             if(!isAvailable(x, y)) continue;
             
-            if(count==n){
-                answer++;
-                return;
-            }
-            else if(y+1<n){
-                setStatus(x, y, true);
-                dfs(y+1, count+1);
-                setStatus(x, y, false);
-            }
-            else return;
+            setStatus(x, y, true);
+            dfs(y+1);
+            setStatus(x, y, false);
         }
+        
         return;
     }
     
-    private static boolean isAvailable(int x, int y){
+    private static boolean isAvailable(int x, int y) {
         return !(width[x] || diagonalRight[x-y+n-1] || diagonalLeft[x+y]);
     }
     
-    private static void setStatus(int x, int y, boolean status){
-        width[x] = status;
-        diagonalRight[x-y+n-1] = status;
-        diagonalLeft[x+y] = status;
+    private static void setStatus(int x, int y, boolean status) {
+        width[x] = diagonalRight[x-y+n-1] = diagonalLeft[x+y] = status;
         return;
     }
 }
