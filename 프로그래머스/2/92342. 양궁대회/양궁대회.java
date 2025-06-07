@@ -1,52 +1,59 @@
-import java.util.*;
+import java.util.Arrays;
 
-class Solution {
-    private static int[] best;
-    private static int maxDiff;
+public class Solution {
+    private static int max;
+    private static int[] answer;
     private static int[] apeach;
 
-    public int[] solution(int n, int[] info) {
-        apeach = info;
-        best = new int[11];
-        maxDiff = 0;
-        dfs(0, n, new int[11], 0, 0);
-        return maxDiff == 0 ? new int[]{-1} : best;
+    private static int getScore(int[] ryan) {
+        int score = 0;
+        for (int i = 0; i <= 10; i++) {
+            if (ryan[i] + apeach[i] > 0) {
+                score += ryan[i] > apeach[i] ? (10 - i) : -(10 - i);
+            }
+        }
+        return score;
     }
 
-    private static void dfs(int idx, int remain, int[] ryan, int apeachScore, int ryanScore) {
-        if (idx == 11) {
-            int[] candidate = ryan.clone();
-            candidate[10] += remain;
-
-            int diff = ryanScore - apeachScore;
-            if (diff <= 0) return;
-
-            if (diff > maxDiff || (diff == maxDiff && isBetter(candidate))) {
-                maxDiff = diff;
-                best = candidate;
+    private static void calculateDiff(int[] ryan) {
+        int score = getScore(ryan);
+        if (max < score) {
+            max = score;
+            answer = ryan.clone();
+        }
+        else if (max > 0 && max == score) {
+            for (int i = 10; i >= 0; i--) {
+                if(answer[i] != ryan[i]) {
+                    if (answer[i] < ryan[i]) {
+                        answer = ryan.clone();
+                    }
+                    break;
+                }
             }
+        }
+    }
+
+    private static void backtrack(int n, int idx, int[] ryan) {
+        if (n == 0) {
+            calculateDiff(ryan);
             return;
         }
 
-        // Case 1: ryan가 이 점수를 포기
-        dfs(idx + 1, remain, ryan, 
-            apeach[idx] > 0 ? apeachScore + (10 - idx) : apeachScore, 
-            ryanScore);
-
-        // Case 2: ryan가 이 점수를 이긴다
-        int need = apeach[idx] + 1;
-        if (remain >= need) {
-            ryan[idx] = need;
-            dfs(idx + 1, remain - need, ryan, apeachScore, ryanScore + (10 - idx));
-            ryan[idx] = 0; // backtrack
+        for (int i = idx; i <= 10; i++) {
+            int cnt = i == 10 ? n : apeach[i] + 1;
+            if (cnt > n) {
+                continue;
+            }
+            ryan[i] = cnt;
+            backtrack(n - cnt, i + 1, ryan);
+            ryan[i] = 0;
         }
     }
 
-    private static boolean isBetter(int[] candidate) {
-        for (int i = 10; i >= 0; i--) {
-            if (candidate[i] > best[i]) return true;
-            else if (candidate[i] < best[i]) return false;
-        }
-        return false;
+    public static int[] solution(int n, int[] info) {
+        apeach = info;
+        max = 0;
+        backtrack(n, 0, new int[11]);
+        return max == 0 ? new int[]{-1} : answer;
     }
 }
