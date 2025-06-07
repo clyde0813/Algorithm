@@ -4,13 +4,12 @@ class Solution {
         StringBuilder sb = new StringBuilder();
         boolean status = true;
         
-        for(int i=0; i<code.length(); i++) {
+        for(int i=0; i<arr.length; i++) {
             if(arr[i]=='1') status = !status;
             else if(status && i%2==0) sb.append(arr[i]);
             else if(!status && i%2==1) sb.append(arr[i]);
         }
         
-        if(sb.length()==0) return "EMPTY";
-        return sb.toString();
+        return (sb.length()==0) ? "EMPTY" : sb.toString();
     }
 }
