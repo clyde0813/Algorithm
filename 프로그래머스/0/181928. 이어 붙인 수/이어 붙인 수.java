@@ -1,48 +1,36 @@
-import java.util.*;
-
 class Solution {
-    private static int[] num_list;
-    private static int n;
-    
     public int solution(int[] num_list) {
-        this.num_list = num_list;
-        this.n = num_list.length;
+        return intCalculate(num_list);
+    }
 
-        return intCaluate();
-    }
-    
-    private static int intCaluate() {
-        int value = 0;
-        List<Integer> even = new ArrayList<>();
-        List<Integer> odd = new ArrayList<>();
-        
-        for(int num : num_list) {
-            if(num%2==0) even.add(num);
-            else odd.add(num);
-        }
-        
-        int evenLength = even.size()-1;
-        for(int e : even) {
-            value += e * Math.pow(10, evenLength--);
-        }
-        
-        int oddLength = odd.size()-1;
-        for(int o : odd) {
-            value += o * Math.pow(10, oddLength--);
-        }
-        
-        return value;
-    }
-    
-    private static int stringCalculate() {        
-        StringBuilder odd = new StringBuilder();
+    private int stringCalculate(int[] num_list) {
         StringBuilder even = new StringBuilder();
-        
-        for(int num : num_list) {
-            if(num%2==0) even.append(num);
+        StringBuilder odd = new StringBuilder();
+
+        for (int num : num_list) {
+            if (num % 2 == 0) even.append(num);
             else odd.append(num);
         }
-        
-        return Integer.valueOf(even.toString()) + Integer.valueOf(odd.toString());
+
+        long evenValue = even.length() > 0 ? Long.parseLong(even.toString()) : 0;
+        long oddValue = odd.length() > 0 ? Long.parseLong(odd.toString()) : 0;
+
+        long sum = evenValue + oddValue;
+        return (int) sum;
+    }
+
+    private int intCalculate(int[] num_list) {
+        int even = 0;
+        int odd = 0;
+
+        for (int num : num_list) {
+            if (num % 2 == 0) {
+                even = even * 10 + num;
+            } else {
+                odd = odd * 10 + num;
+            }
+        }
+
+        return even + odd;
     }
 }
