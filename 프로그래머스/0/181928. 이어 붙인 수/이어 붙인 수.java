@@ -8,7 +8,7 @@ class Solution {
         this.num_list = num_list;
         this.n = num_list.length;
 
-        return stringCalculate();
+        return intCaluate();
     }
     
     private static int intCaluate() {
