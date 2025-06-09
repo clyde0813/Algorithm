@@ -12,11 +12,7 @@ class Solution {
             else odd.append(num);
         }
 
-        long evenValue = even.length() > 0 ? Long.parseLong(even.toString()) : 0;
-        long oddValue = odd.length() > 0 ? Long.parseLong(odd.toString()) : 0;
-
-        long sum = evenValue + oddValue;
-        return (int) sum;
+        return Integer.valueOf(even.toString()) + Integer.valueOf(odd.toString());
     }
 
     private int intCalculate(int[] num_list) {
