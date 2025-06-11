@@ -2,10 +2,13 @@ class Solution {
     public int solution(int n, String control) {
         int answer = n;
         for(char c : control.toCharArray()) {
-            if(c=='w') answer += 1;
-            else if(c=='s') answer -= 1;
-            else if(c=='d') answer += 10;
-            else answer -= 10;
+           switch(c) {
+                case 'w': answer += 1; break;
+                case 's': answer -= 1; break;
+                case 'd': answer += 10; break;
+                case 'a': answer -= 10; break;
+                default:break;
+            }
         }
         return answer;
     }
