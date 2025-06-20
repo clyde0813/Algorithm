@@ -3,20 +3,21 @@ import java.util.*;
 class Solution {
     public int[] solution(int l, int r) {
         List<Integer> result = new ArrayList<>();
-        Queue<Integer> queue = new LinkedList<>();
         
-        queue.add(5);
-        
-        while(!queue.isEmpty()) {
-            int current = Integer.valueOf(queue.poll());
+        for(int i=0; ;i++) {
+            String binary = Integer.toBinaryString(i);
+            StringBuilder sb = new StringBuilder();
             
-            if(current>r) break;
-            if(current>=l) result.add(current);
+            for(char c : binary.toCharArray()) {
+                sb.append((c=='0') ? "0" : "5");    
+            }
             
-            queue.add(Integer.valueOf(current + "0"));
-            queue.add(Integer.valueOf(current + "5"));
+            int value = Integer.valueOf(sb.toString());
+            
+            if(value>r) break;
+            else if(value>=l) result.add(value);
         }
         
-        return result.isEmpty() ? new int[]{-1} : result.stream().mapToInt(i -> i).toArray();
+        return result.isEmpty() ? new int[]{-1} : result.stream().mapToInt(i->i).toArray();
     }
 }
