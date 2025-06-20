@@ -8,12 +8,9 @@ class Solution {
             String binary = Integer.toBinaryString(i);
             StringBuilder sb = new StringBuilder();
             
-            for(char c : binary.toCharArray()) {
-                sb.append((c=='0') ? "0" : "5");    
-            }
+            for(char c : binary.toCharArray()) sb.append((c=='0') ? "0" : "5");    
             
             int value = Integer.valueOf(sb.toString());
-            
             if(value>r) break;
             else if(value>=l) result.add(value);
         }
