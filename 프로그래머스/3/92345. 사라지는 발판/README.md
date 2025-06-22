@@ -1,10 +1,10 @@
 # [level 3] 사라지는 발판 - 92345 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/92345) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/92345#) 
 
 ### 성능 요약
 
-메모리: 80.2 MB, 시간: 12.05 ms
+메모리: 76.1 MB, 시간: 12.33 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 06월 22일 12:55:42
+2025년 06월 22일 15:35:56
 
 ### 문제 설명
 

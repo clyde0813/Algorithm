@@ -25,13 +25,10 @@ class Solution {
             
             int cnt = 1 + dfs(next, new int[]{dy, dx});
             
-            if(ret%2==0) {
-                if(cnt%2==0) ret = Math.max(ret, cnt);
-                else ret = cnt;
-            }
-            else {
-                if(cnt%2==1) ret = Math.min(ret, cnt);
-            }
+            if(ret%2==0 && cnt%2==1)  ret = cnt;
+            else if(ret%2==0 && cnt%2==0) ret = Math.max(ret, cnt);
+            else if(ret%2==1 && cnt%2==1) ret = Math.min(ret, cnt);
+            
         }
 		board[y][x] = 1;
         
