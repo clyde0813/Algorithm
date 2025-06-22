@@ -28,7 +28,6 @@ class Solution {
             if(ret%2==0 && cnt%2==1)  ret = cnt;
             else if(ret%2==0 && cnt%2==0) ret = Math.max(ret, cnt);
             else if(ret%2==1 && cnt%2==1) ret = Math.min(ret, cnt);
-            
         }
 		board[y][x] = 1;
         
