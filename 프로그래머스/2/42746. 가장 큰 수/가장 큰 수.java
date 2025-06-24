@@ -5,11 +5,7 @@ class Solution {
         List<String> list = new ArrayList<>();
         for(int number : numbers) list.add(String.valueOf(number));
         
-        list.sort((o1, o2) -> {
-                int a = Integer.valueOf(o1 + o2);
-     			int b = Integer.valueOf(o2 + o1);
-               	return b - a;  
-        });
+        list.sort((o1, o2) -> (o2+o1).compareTo(o1+o2));
                 
         StringBuilder sb = new StringBuilder();
         for(String number : list) sb.append(number);
