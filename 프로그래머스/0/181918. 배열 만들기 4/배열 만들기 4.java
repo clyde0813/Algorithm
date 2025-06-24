@@ -7,10 +7,8 @@ class Solution {
         
         while(i<arr.length) {
             if(stk.isEmpty()) stk.offerFirst(arr[i++]);
-            else {
-                if(stk.peekLast()<arr[i]) stk.offerLast(arr[i++]);
-                else stk.pollLast();
-            }
+            else if(stk.peekLast()<arr[i]) stk.offerLast(arr[i++]);
+            else stk.pollLast();
         }
                 
         return stk.stream().mapToInt(o->o).toArray();
