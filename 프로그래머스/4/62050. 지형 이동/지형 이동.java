@@ -1,37 +1,35 @@
 import java.util.*;
 
 class Solution {
-    private static int[][] LAND;
     private static boolean[][] visited;
     private static int n;
-    private static int height;
     private static int[][] dirs = {{1,0},{-1,0},{0,1},{0,-1}};
     
     public int solution(int[][] land, int height) {
-        this.LAND = land;
         this.n = land.length;
         this.visited = new boolean[n][n];
-        this.height = height;
         
         for(boolean[] v : visited) Arrays.fill(v, false);
         
-        PriorityQueue<int[]> pq = new PriorityQueue<>((o1,o2) -> o1[3]-o2[3]);
-        pq.offer(new int[]{0,0,land[0][0],0});
+        PriorityQueue<int[]> pq = new PriorityQueue<>((o1,o2) -> o1[2]-o2[2]);
+        pq.offer(new int[]{0,0,0});
         
         int answer = 0;
         while(!pq.isEmpty()) {
             int[] current = pq.poll();
-            int y = current[0], x = current[1], value = current[2], diff = current[3];
+            int y = current[0], x = current[1], cost = current[2];
             if(!isAvailable(y, x)) continue;
-            if(diff>height) answer += diff;
+            
+            answer += cost;
             visited[y][x] = true;
             
             for(int[] dir : dirs) {
                 int dy = y+dir[0], dx = x+dir[1];
                 if(!isAvailable(dy, dx)) continue;
                 
-                int nextValue = LAND[dy][dx];
-                pq.offer(new int[]{dy, dx, nextValue, Math.abs(value-nextValue)});
+                int diff = Math.abs(land[y][x]-land[dy][dx]);
+                int newCost = (diff>height) ? diff : 0;
+                pq.offer(new int[]{dy, dx, newCost});
             }
         }
             
