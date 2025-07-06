@@ -1,47 +1,49 @@
 import java.util.*;
 
 class Solution {
-    List<Integer>[] tree;
-    int maxSheep = 0;
-    int n;
-    int[] info;
-
+    private static int[] info;
+    private static int[][] tree;
+    private static int answer;
+    
     public int solution(int[] info, int[][] edges) {
         this.info = info;
-        n = info.length;
-        tree = new ArrayList[n];
-        for (int i = 0; i < n; i++) tree[i] = new ArrayList<>();
-        for (int[] edge : edges) {
-            tree[edge[0]].add(edge[1]);
-        }
-
-        int initMask = 0;
-        for (int child : tree[0]) {
-            initMask |= (1 << child);
-        }
-
-        dfs(1, 0, initMask);
-        return maxSheep;
-    }
-
-    void dfs(int sheep, int wolf, int visitMask) {
-        maxSheep = Math.max(maxSheep, sheep);
-
-        for (int next = 0; next < n; next++) {
-            if ((visitMask & (1 << next)) == 0) continue;
-
-            int type = info[next];
-            int newSheep = sheep + (type == 0 ? 1 : 0);
-            int newWolf = wolf + (type == 1 ? 1 : 0);
-
-            if (newWolf >= newSheep) continue;
-
-            int nextMask = (visitMask & ~(1 << next));
-            for (int child : tree[next]) {
-                nextMask |= (1 << child);
+        int[][] tree = new int[info.length][2];
+        for(int[] t : tree) Arrays.fill(t, -1);
+        
+        for(int[] edge : edges) {
+            for(int i=0; i<2; i++) {
+                if(tree[edge[0]][i]==-1) {
+                    tree[edge[0]][i] = edge[1];
+                    break;
+                }
             }
-
-            dfs(newSheep, newWolf, nextMask);
         }
+        
+        this.tree = tree;
+        backtrack(1, 0, tree[0]);
+        
+        return answer;
+    }
+    
+    private static void backtrack(int sheep, int wolf, int[] visitable) {
+        if(sheep<=wolf) return;
+        
+        int result = 0;
+        
+        for(int v : visitable) {
+            if(v==-1) continue;
+            
+            int[] newVisitable = new int[(visitable.length-1)+2];
+            int idx = 0;
+            for(int nv : visitable) if(nv!=v) newVisitable[idx++] = nv;
+            for(int child : tree[v]) newVisitable[idx++] = child;
+                        
+            if(info[v]==0) backtrack(sheep+1, wolf, newVisitable);
+            else backtrack(sheep, wolf+1, newVisitable);
+        }
+        
+        answer = Math.max(sheep, answer);
+        
+        return;
     }
 }
