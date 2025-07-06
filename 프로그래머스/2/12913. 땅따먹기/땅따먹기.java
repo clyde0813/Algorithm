@@ -6,8 +6,7 @@ class Solution {
             for(int j=0; j<4; j++) {
                 int max = 0;
                 for(int p=0; p<4; p++) {
-                    if(p==j) continue;
-                    max = Math.max(max, land[i-1][p]);
+                    if(p!=j) max = Math.max(max, land[i-1][p]);
                 }
                 land[i][j] += max;
             }
