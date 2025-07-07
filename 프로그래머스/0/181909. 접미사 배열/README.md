@@ -1,6 +1,6 @@
 # [level 0] 접미사 배열 - 181909 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/181909?language=java) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/181909) 
 
 ### 성능 요약
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 07월 07일 19:22:13
+2025년 07월 07일 19:22:39
 
 ### 문제 설명
 
