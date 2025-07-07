@@ -2,17 +2,24 @@ import java.util.*;
 
 class Solution {
     private int[] info;
-    private List<Integer>[] tree;
+    private int[][] tree;
     private int answer;
     
     public int solution(int[] info, int[][] edges) {
         int n = info.length;
         this.info = info;    
-        this.tree = new ArrayList[n];
-        
-        for(int i=0; i<n; i++) tree[i] = new ArrayList<>();
-        
-        for(int[] edge : edges) tree[edge[0]].add(edge[1]);
+        this.tree = new int[n][2];
+                
+        for(int[] t : tree) Arrays.fill(t, -1);
+
+        for(int[] edge : edges) {
+            for(int i=0; i<2; i++) {
+                if(tree[edge[0]][i]==-1) {
+                    tree[edge[0]][i] = edge[1]; 
+                    break;
+                }
+            }
+        }
         
         List<Integer> visitable = new ArrayList<>();
         visitable.add(0);
@@ -35,7 +42,7 @@ class Solution {
             List<Integer> newVisitable = new ArrayList<>(visitable);
             newVisitable.remove(i);
             
-            for(int child : tree[edge]) newVisitable.add(child);
+            for(int child : tree[edge]) if(child!=-1) newVisitable.add(child);
             
             dfs(ns, nw, newVisitable);
         }
