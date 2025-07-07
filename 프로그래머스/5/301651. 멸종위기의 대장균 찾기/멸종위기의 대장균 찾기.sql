@@ -1,0 +1,32 @@
+WITH RECURSIVE tree AS (
+    SELECT
+        ID,
+        PARENT_ID,
+        1 AS GENERATION
+    FROM ECOLI_DATA
+    WHERE PARENT_ID IS NULL
+
+    UNION ALL
+
+    SELECT
+        e.ID,
+        e.PARENT_ID,
+        t.GENERATION + 1
+    FROM ECOLI_DATA e
+    JOIN tree t
+      ON e.PARENT_ID = t.ID
+)
+SELECT
+    COUNT(*)       AS COUNT,
+    t.GENERATION   AS GENERATION
+FROM tree t
+
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM ECOLI_DATA e
+    WHERE e.PARENT_ID = t.ID
+)
+
+GROUP BY t.GENERATION
+
+ORDER BY t.GENERATION;
