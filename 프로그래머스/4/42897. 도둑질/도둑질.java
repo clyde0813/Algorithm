@@ -2,7 +2,6 @@ import java.util.*;
 
 class Solution {
     public int solution(int[] money) {
-        int answer = 0;
         int n = money.length;
         if(n==3) return Arrays.stream(money).max().getAsInt();
         
