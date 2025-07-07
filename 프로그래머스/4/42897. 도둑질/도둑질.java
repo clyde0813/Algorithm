@@ -7,6 +7,8 @@ class Solution {
         this.money = money;
         int n = money.length;
         
+        if(n==3) return Arrays.stream(money).max().getAsInt();
+        
         int case1 = robLinear(0, n-2);
         int case2 = robLinear(1, n-1);
         
