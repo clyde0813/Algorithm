@@ -1,25 +1,28 @@
 import java.util.*;
 
 class Solution {
+    private int[] money;
+    
     public int solution(int[] money) {
+        this.money = money;
         int n = money.length;
-        if(n==3) return Arrays.stream(money).max().getAsInt();
         
-        int[] moneyCopy = Arrays.copyOf(money, money.length);
-        for(int i=2; i<money.length; i++) {
-            if(i-3>=0) moneyCopy[i] = Math.max(moneyCopy[i-2], moneyCopy[i-3]) + moneyCopy[i];
-            else moneyCopy[i] = moneyCopy[i-2] + moneyCopy[i];
+        int case1 = robLinear(0, n-2);
+        int case2 = robLinear(1, n-1);
+        
+        return Math.max(case1, case2);
+    }
+    
+    private int robLinear(int start, int end) {
+        int prev1 = 0;
+        int prev2 = 0;
+        
+        for(int i=start; i<=end; i++) {
+            int cur = Math.max(prev1, prev2 + money[i]);
+            prev2 = prev1;
+            prev1 = cur;
         }
         
-        int value1 = Math.max(moneyCopy[money.length-3], moneyCopy[money.length-2]);
-        
-        for(int i=3; i<money.length; i++) {
-            if(i-4>=0) money[i] = Math.max(money[i-2], money[i-3]) + money[i];
-            else money[i] = money[i-2] + money[i];
-        }
-        
-        int value2 = Math.max(money[money.length-2], money[money.length-1]);
-        
-        return Math.max(value1, value2);
+        return prev1;
     }
 }
