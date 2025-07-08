@@ -1,10 +1,8 @@
 import java.util.*;
 
-class Solution {
-    private static int n;
-    
+class Solution {    
     public int[][] solution(int[][] nodeinfo) {
-        this.n = nodeinfo.length;
+        int n = nodeinfo.length;
         
         List<Node> nodeList = new ArrayList<>();
         for(int i=0; i<n; i++) {
@@ -18,9 +16,7 @@ class Solution {
         });
 
         Node parent = nodeList.get(0);
-        for(int i=1; i<n; i++) {
-            buildTree(parent, nodeList.get(i));
-        }
+        for(int i=1; i<n; i++) buildTree(parent, nodeList.get(i));
 
         List<Integer> pre = new ArrayList<>();
         List<Integer> post = new ArrayList<>();
