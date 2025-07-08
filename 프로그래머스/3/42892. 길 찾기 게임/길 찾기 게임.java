@@ -1,61 +1,66 @@
 import java.util.*;
 
 class Solution {
-    static class Node{
-        public int x, y, idx;
-        public Node left, right;
+    private static int n;
+    
+    public int[][] solution(int[][] nodeinfo) {
+        this.n = nodeinfo.length;
         
-        public Node(int x, int y, int idx){
-            this.x = x;
+        List<Node> nodeList = new ArrayList<>();
+        for(int i=0; i<n; i++) {
+            int[] node = nodeinfo[i];
+            nodeList.add(new Node(node[0], node[1], i+1));
+        }
+        
+        nodeList.sort((n1, n2) -> {
+            if(n1.y==n2.y) return n1.x - n2.x;
+            return n2.y - n1.y;
+        });
+
+        Node parent = nodeList.get(0);
+        for(int i=1; i<n; i++) {
+            buildTree(parent, nodeList.get(i));
+        }
+
+        List<Integer> pre = new ArrayList<>();
+        List<Integer> post = new ArrayList<>();
+        preorder(parent, pre);
+        postorder(parent, post);
+        
+        return new int[][]{pre.stream().mapToInt(i->i).toArray(), post.stream().mapToInt(i->i).toArray()};
+    }
+    
+    private void buildTree(Node parent, Node child) {
+        if(parent.x>child.x) {
+            if(parent.left==null) parent.left = child;
+            else buildTree(parent.left, child);
+        }
+        else {
+            if(parent.right==null) parent.right = child;
+            else buildTree(parent.right, child);
+        }
+    }
+    
+    private void preorder(Node node, List<Integer> list) {
+    	list.add(node.idx);
+        if(node.left!=null) preorder(node.left, list);
+        if(node.right!=null) preorder(node.right, list);
+    }
+    
+	private void postorder(Node node, List<Integer> list) {
+        if(node.left!=null) postorder(node.left, list);
+        if(node.right!=null) postorder(node.right, list);
+        list.add(node.idx);
+    }
+    
+    private static class Node {
+        int x, y, idx;
+        Node left, right;
+        
+        public Node (int x, int y, int idx) {
+        	this.x = x;
             this.y = y;
             this.idx = idx;
         }
-    }
-    
-    public int[][] solution(int[][] nodeinfo) {
-        Node[] nodes = new Node[nodeinfo.length];
-        
-        for(int i=0; i<nodeinfo.length; i++){
-            nodes[i] = new Node(nodeinfo[i][0], nodeinfo[i][1], i+1);
-        }
-        
-        Arrays.sort(nodes, (o1, o2) -> o2.y - o1.y);
-        
-        Node root = nodes[0];
-        
-        for(int i=1; i<nodes.length; i++){
-            insertNode(root, nodes[i]);
-        }
-        
-        return new int[][]{
-            preorder(root).stream().mapToInt(i -> i).toArray(),
-            postorder(root).stream().mapToInt(i -> i).toArray()
-        };
-    }
-    
-    private void insertNode(Node parent, Node child){
-        if(parent.x > child.x){
-            if(parent.left==null) parent.left = child;
-            else insertNode(parent.left, child);
-        } else {
-            if(parent.right==null) parent.right = child;
-            else insertNode(parent.right, child);
-        }
-    }
-    
-    private List<Integer> preorder(Node node){
-        List<Integer> order = new ArrayList<>();
-        order.add(node.idx);
-        if(node.left!=null) order.addAll(preorder(node.left));
-        if(node.right!=null) order.addAll(preorder(node.right));
-        return order;
-    }
-    
-    private List<Integer> postorder(Node node){
-        List<Integer> order = new ArrayList<>();
-        if(node.left!=null) order.addAll(postorder(node.left));
-        if(node.right!=null) order.addAll(postorder(node.right));
-        order.add(node.idx);
-        return order;
     }
 }
