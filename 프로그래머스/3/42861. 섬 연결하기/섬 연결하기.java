@@ -1,35 +1,37 @@
 import java.util.*;
 
 class Solution {
+    private int[] root;
+    
     public int solution(int n, int[][] costs) {
         if(n==1) return 0;
         
-        int[] parent = new int[n];
-        for(int i=0; i<n; i++) parent[i] = i;
+        this.root = new int[n];
+        for(int i=0; i<n; i++) root[i] = i;
         
         Arrays.sort(costs, (o1, o2) -> o1[2] - o2[2]);
         
         int answer = 0;
-        int edges = 0;
-        for(int[] cost : costs){
-            if(find(parent, cost[0]) == find(parent, cost[1])) continue;
+        for(int[] cost : costs) {
+            if(find(cost[0]) == find(cost[1])) continue;
             
-            union(parent, cost[0], cost[1]);
+            int parent = Math.min(cost[0], cost[1]);
+            int child = Math.max(cost[0], cost[1]);
+            union(parent, child);
             answer += cost[2];
-            edges++;
-            if(edges == n-1) break;
         }
+        
         return answer;
     }
     
-    private int find(int[] parent, int target){
-        if(parent[target] != target){
-            parent[target] = find(parent, parent[target]);
-        }
-        return parent[target];
+    private int find(int node) {
+        if(root[node] != node) root[node] = find(root[node]);
+        return root[node];
     }
     
-    private void union(int[] parent, int target, int child){
-        parent[find(parent, child)] = find(parent, target);
+    private void union(int parent, int child) {
+        int parentRoot = find(parent);
+        int childRoot = find(child);
+        root[childRoot] = parentRoot;        
     }
 }
