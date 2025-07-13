@@ -8,12 +8,11 @@ class Solution {
             boolean flag = true;
             
             for(int timelog : timelogs[i]) {    
-                if(day == 8) day = 1;
                 if(day != 6 && day != 7 && timelog > pivot){
                     flag = false; 
                     break;
                 } 
-                day++;
+                if(day++ == 7) day = 1;
             }
             if(flag) answer++;
         }
