@@ -11,16 +11,16 @@ class Solution {
         int answer = 0;
         for(int i=0; i<n; i++) {
             int[] connections = computers[i];
-            for(int j=0; j<n; j++) {
-                if(i==j || connections[j]==0) continue;
+            for(int j=i+1; j<n; j++) {
+                if(connections[j]==0) continue;
                 
                 if(find(i) != find(j)) union(i, j);
             }
         }
-        for(int i=0; i<n; i++) find(i);
         
-        Set<Integer> set = new HashSet<>(Arrays.stream(parent).boxed().collect(Collectors.toList()));
-
+        Set<Integer> set = new HashSet<>();
+        for(int i=0; i<n; i++) set.add(find(i));
+        
         return set.size();
     }
     
