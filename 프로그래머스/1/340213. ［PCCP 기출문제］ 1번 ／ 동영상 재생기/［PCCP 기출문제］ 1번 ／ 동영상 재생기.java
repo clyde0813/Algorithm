@@ -19,17 +19,12 @@ class Solution {
             }
         }
         if(position>=opStart && position<=opEnd) position = opEnd;
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%02d", position/60)).append(":").append(String.format("%02d", position%60));
         
-        return sb.toString();
+        return String.format("%02d:%02d", position/60, position%60);
     }
     
-    private int stringToInt(String timeString) {
-        int result = 0;
-        String[] ts = timeString.split(":");
-        for(int i=0; i<2; i++) result += Integer.valueOf(ts[i]) * Math.pow(60, (1-i));
-        return result;
+    private int stringToInt(String string) {
+        String[] p = string.split(":");
+        return Integer.parseInt(p[0]) * 60 + Integer.parseInt(p[1]);
     }
 }
