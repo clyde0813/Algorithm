@@ -7,12 +7,8 @@ class Solution {
     public int solution(int[] mats, String[][] park) {
         this.n = park.length;
         this.m = park[0].length;
-        int[][] map = createMap(park);
-        int max = getMaxSize(map);
-        System.out.println(max);
-        int maxMat = getMaxMat(max, mats);
-        
-        return maxMat;
+                
+        return getMaxMat(getMaxSize(createMap(park)), mats);
     }
     
     private int[][] createMap(String[][] park) {
