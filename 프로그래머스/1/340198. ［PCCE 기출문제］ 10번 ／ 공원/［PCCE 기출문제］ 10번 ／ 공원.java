@@ -54,14 +54,8 @@ class Solution {
     
     private int getMaxMat(int max, int[] mats) {
         Arrays.sort(mats);
-        
-        int result = -1;
-        
-        for(int mat : mats) {
-            if(mat<=max) result = mat;
-            if(mat>max) break;
-        }
-        
-        return result;
+        int idx = Arrays.binarySearch(mats, max);
+        if(idx<0) idx = -idx-2;
+        return idx<0 ? -1 : mats[idx];
     }
 }
