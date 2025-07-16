@@ -2,32 +2,36 @@ import java.util.*;
 
 class Solution {
     public int solution(int N, int[][] road, int K) {
-        if(N==1) return 1;
-        
-        List<int[]>[] graph = new ArrayList[N];
-        for(int i=0; i<N; i++) graph[i] = new ArrayList<>();
-        for(int[] r : road) for(int i=0; i<2; i++) graph[r[i]-1].add(new int[]{r[i]-1, r[1-i]-1, r[2]});
-        
-        PriorityQueue<int[]> pq = new PriorityQueue<>((o1, o2) -> o1[2] - o2[2]);
-        pq.addAll(graph[0]);
-        
-        int[] cost = new int[N];
-        Arrays.fill(cost, Integer.MAX_VALUE);
-        cost[0] = 0;
-        
-        int answer = 1;
-        while(!pq.isEmpty()) {
-            int[] current = pq.poll();
-            int parent = current[0], child = current[1], value = current[2];
-            int currentCost = cost[parent] + value;
-            
-            if(currentCost<=K && currentCost<cost[child]) {
-                if(cost[child]==Integer.MAX_VALUE) answer++;
-                cost[child] = currentCost;
-                pq.addAll(graph[child]);
+        List<int[]>[] graph = new ArrayList[N + 1];
+        for (int i = 1; i <= N; i++) graph[i] = new ArrayList<>();
+        for (int[] r : road) {
+            graph[r[0]].add(new int[]{r[1], r[2]});
+            graph[r[1]].add(new int[]{r[0], r[2]});
+        }
+
+        int[] dist = new int[N + 1];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[1] = 0;
+
+        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
+        pq.offer(new int[]{1, 0});
+
+        while (!pq.isEmpty()) {
+            int[] curr = pq.poll();
+            int node = curr[0], d = curr[1];
+            if (d > dist[node]) continue;
+
+            for (int[] next : graph[node]) {
+                int to = next[0], cost = next[1];
+                if (dist[to] > dist[node] + cost) {
+                    dist[to] = dist[node] + cost;
+                    pq.offer(new int[]{to, dist[to]});
+                }
             }
         }
 
+        int answer = 0;
+        for (int i = 1; i <= N; i++) if (dist[i] <= K) answer++;
         return answer;
     }
 }
