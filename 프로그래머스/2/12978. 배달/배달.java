@@ -7,9 +7,8 @@ class Solution {
             map.computeIfAbsent(r[0], o -> new ArrayList<>()).add(new int[]{r[0],r[1],r[2]});
             map.computeIfAbsent(r[1], o -> new ArrayList<>()).add(new int[]{r[1],r[0],r[2]});
         }
-        for(int i=1; i<N; i++) Collections.sort(map.get(i), (o1, o2) -> o1[2]-o2[2]);
         
-        Queue<int[]> pq = new LinkedList<>();
+        PriorityQueue<int[]> pq = new PriorityQueue<>((o1, o2) -> o1[2] - o2[2]);
         pq.addAll(map.get(1));
         
         int[] cost = new int[N];
