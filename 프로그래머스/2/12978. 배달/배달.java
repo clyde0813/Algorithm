@@ -2,36 +2,32 @@ import java.util.*;
 
 class Solution {
     public int solution(int N, int[][] road, int K) {
-        if(N==1) return 1;
-        
-        List<int[]>[] graph = new ArrayList[N];
-        for(int i=0; i<N; i++) graph[i] = new ArrayList<>();
-        for(int[] r : road){
-            graph[r[0]-1].add(new int[]{r[1]-1, r[2]});
-            graph[r[1]-1].add(new int[]{r[0]-1, r[2]});
+        Map<Integer, List<int[]>> map = new HashMap<>();
+        for(int[] r : road) {
+            map.computeIfAbsent(r[0], o -> new ArrayList<>()).add(new int[]{r[0],r[1],r[2]});
+            map.computeIfAbsent(r[1], o -> new ArrayList<>()).add(new int[]{r[1],r[0],r[2]});
         }
+        for(int i=1; i<N; i++) Collections.sort(map.get(i), (o1, o2) -> o1[2]-o2[2]);
         
-        int[] costs = new int[N];
-        Arrays.fill(costs, Integer.MAX_VALUE);
-        costs[0] = 0;
+        Queue<int[]> pq = new LinkedList<>();
+        pq.addAll(map.get(1));
         
-        PriorityQueue<int[]> pq = new PriorityQueue<>((o1, o2) -> o1[1] - o2[1]);
-        pq.offer(new int[]{0,0});
+        int[] cost = new int[N];
+        Arrays.fill(cost, Integer.MAX_VALUE);
+        cost[0] = 0;
         
         int answer = 1;
-        while(!pq.isEmpty()){
+        while(!pq.isEmpty()) {
             int[] current = pq.poll();
-            int node = current[0], cost = current[1];
+            int parent = current[0]-1, child = current[1]-1, value = current[2];
+            int currentCost = cost[parent] + value;
             
-            for(int[] next : graph[node]){
-                if(cost+next[1]>K || costs[next[0]]<cost+next[1]) continue;
-                
-                if(costs[next[0]]==Integer.MAX_VALUE) answer++;
-                costs[next[0]] = cost+next[1];
-                pq.offer(new int[]{next[0], cost+next[1]});
+            if(currentCost<=K && currentCost<cost[child]) {
+                if(map.containsKey(child+1)) pq.addAll(map.get(child+1));
+                if(cost[child]==Integer.MAX_VALUE) answer++;
+                cost[child] = currentCost;
             }
         }
-        
 
         return answer;
     }
