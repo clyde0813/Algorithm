@@ -1,42 +1,44 @@
 import java.util.*;
 
 class Solution {
-    private int n;
-    private int[][] board;
-    private int[][] dirs = {{1,0}, {-1,0}, {0,1}, {0,-1}};
-    
     public int solution(int[][] board) {
-        this.board = board;
-        this.n = board.length;
-        int[][][] map = new int[n][n][4];
-        for(int[][] mm : map) for(int[] m : mm) Arrays.fill(m, Integer.MAX_VALUE);
-        
-        //{y좌표, x좌표, 이전방향, 누적값}
-        PriorityQueue<int[]> queue = new PriorityQueue<>((o1, o2) -> o1[3]-o2[3]);
-        queue.offer(new int[]{0, 0, -1, 0});
+        int n = board.length;
+        int m = board[0].length;
+        int[][] dirs = {{-1,0}, {1,0}, {0,-1}, {0,1}};
 
-        while(!queue.isEmpty()){
-            int[] curr = queue.poll();
-            int y = curr[0], x = curr[1], direction = curr[2], cost = curr[3];
-            
-            for(int i=0; i<4; i++){
+        int[][][] map = new int[n][m][4];
+        for(int i=0; i<n; i++) for(int j=0; j<m; j++) Arrays.fill(map[i][j], Integer.MAX_VALUE);
+        for(int i=0; i<4; i++) map[0][0][i] = 0;
+
+
+
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[]{0, 0, 0, 1});
+        queue.offer(new int[]{0, 0, 0, 3});
+
+        while(!queue.isEmpty()) {
+            int[] current = queue.poll();
+            int y = current[0], x = current[1], cost = current[2], direction = current[3];
+
+            for(int i=0; i<4; i++) {
                 int[] dir = dirs[i];
                 int dy = y+dir[0], dx = x+dir[1];
-                if(!isInBountAndRoad(dy, dx)) continue;
-                
-                int newCost = cost + 100;
-                if(direction!=-1 && direction!=i) newCost += 500;
-                if(map[dy][dx][i] <= newCost) continue;
-                
-                map[dy][dx][i] = newCost;
-                queue.offer(new int[]{dy, dx, i, newCost});
+
+                if(!(n>dy&&dy>=0&&m>dx&&dx>=0) || board[dy][dx]==1) continue;
+
+                int value = cost + ((direction == i) ? 100 : 600);
+
+                if(value >= map[dy][dx][i]) continue;
+
+                map[dy][dx][i] = value;
+                queue.add(new int[]{dy, dx, value, i});
             }
         }
 
-        return Arrays.stream(map[n-1][n-1]).min().getAsInt();
+
+        int answer = Integer.MAX_VALUE;
+        for(int i=0; i<4; i++) answer = Math.min(answer, map[n-1][m-1][i]);
+
+        return answer;
     }
-    
-    private boolean isInBountAndRoad(int y, int x){
-        return n>y && y>=0 && n>x && x>=0 && board[y][x]==0;
-    }    
 }
