@@ -12,12 +12,12 @@ class Solution {
 
 
 
-        Queue<int[]> queue = new LinkedList<>();
-        queue.offer(new int[]{0, 0, 0, 1});
-        queue.offer(new int[]{0, 0, 0, 3});
+        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(o -> o[2]));
+        pq.offer(new int[]{0, 0, 0, 1});
+        pq.offer(new int[]{0, 0, 0, 3});
 
-        while(!queue.isEmpty()) {
-            int[] current = queue.poll();
+        while(!pq.isEmpty()) {
+            int[] current = pq.poll();
             int y = current[0], x = current[1], cost = current[2], direction = current[3];
 
             for(int i=0; i<4; i++) {
@@ -27,18 +27,12 @@ class Solution {
                 if(!(n>dy&&dy>=0&&m>dx&&dx>=0) || board[dy][dx]==1) continue;
 
                 int value = cost + ((direction == i) ? 100 : 600);
-
                 if(value >= map[dy][dx][i]) continue;
-
                 map[dy][dx][i] = value;
-                queue.add(new int[]{dy, dx, value, i});
+                pq.add(new int[]{dy, dx, value, i});
             }
         }
-
-
-        int answer = Integer.MAX_VALUE;
-        for(int i=0; i<4; i++) answer = Math.min(answer, map[n-1][m-1][i]);
-
-        return answer;
+        
+        return Arrays.stream(map[n-1][m-1]).min().getAsInt();
     }
 }
