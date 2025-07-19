@@ -8,13 +8,9 @@ class Solution {
 
         int[][][] map = new int[n][m][4];
         for(int i=0; i<n; i++) for(int j=0; j<m; j++) Arrays.fill(map[i][j], Integer.MAX_VALUE);
-        for(int i=0; i<4; i++) map[0][0][i] = 0;
-
-
 
         PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(o -> o[2]));
-        pq.offer(new int[]{0, 0, 0, 1});
-        pq.offer(new int[]{0, 0, 0, 3});
+        pq.offer(new int[]{0, 0, 0, -1});
 
         while(!pq.isEmpty()) {
             int[] current = pq.poll();
@@ -26,7 +22,7 @@ class Solution {
 
                 if(!(n>dy&&dy>=0&&m>dx&&dx>=0) || board[dy][dx]==1) continue;
 
-                int value = cost + ((direction == i) ? 100 : 600);
+                int value = cost + ((direction == i || direction==-1) ? 100 : 600);
                 if(value >= map[dy][dx][i]) continue;
                 map[dy][dx][i] = value;
                 pq.add(new int[]{dy, dx, value, i});
