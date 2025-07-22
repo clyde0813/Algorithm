@@ -1,11 +1,9 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.StringTokenizer;
 
 public class Main {    
-    private Map<String, Integer> map = new HashMap<>();
+    private int[][] cache;
     
     public static void main(String[] args) throws Exception {
         new Main().solution();
@@ -16,15 +14,14 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine());
         int n = Integer.valueOf(st.nextToken());
         int k = Integer.valueOf(st.nextToken());
+        this.cache = new int[n+1][k+1];
 
         System.out.println(pascalDFS(n, k));
     }
 
     private int pascalDFS(int n, int r) {
-        if(n==1 || r==0 || n-r==0) return 1;
-        String key = n+":"+r;
-        if(map.containsKey(key)) return map.get(key);
-        map.put(key, (pascalDFS(n-1, r-1) + pascalDFS(n-1, r)) % 10007);
-        return map.get(key);
+        if(r==0 || n==r) return cache[n][r] = 1;
+        if(cache[n][r]>0) return cache[n][r];
+        return cache[n][r] = (pascalDFS(n-1, r-1) + pascalDFS(n-1, r)) % 10007;
     }
 }
