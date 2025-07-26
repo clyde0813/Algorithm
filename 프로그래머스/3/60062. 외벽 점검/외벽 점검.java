@@ -53,8 +53,8 @@ class Solution {
             for(int distance : dist) {
                 int pos = WEAK[idx++] + distance;
                 while(idx<WEAK.length && WEAK[idx]<=pos) idx++;
-                if(idx-i>=length) return true;
             }
+            if(idx-i>=length) return true;
         }
         return false;
     }
