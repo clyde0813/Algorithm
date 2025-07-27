@@ -1,14 +1,19 @@
 import java.util.*;
 
 class Solution {
-    public String solution(int[] numbers) {        
-        List<String> list = new ArrayList<>();
-        for(int number : numbers) list.add(String.valueOf(number));
+    public String solution(int[] numbers) {
+        PriorityQueue<Integer> pq = new PriorityQueue(
+            (o1, o2) -> {
+                String s1 = String.valueOf(o1);
+                String s2 = String.valueOf(o2);
+                return (Integer.valueOf(s2+s1)).compareTo(Integer.valueOf(s1+s2));
+            });
+            
         
-        list.sort((o1, o2) -> (o2+o1).compareTo(o1+o2));
-                
+        for(int n : numbers) pq.add(n);
+        
         StringBuilder sb = new StringBuilder();
-        for(String number : list) sb.append(number);
+        while(!pq.isEmpty()) sb.append(pq.poll());
         
         return (sb.toString().charAt(0)=='0') ? "0" : sb.toString();
     }
