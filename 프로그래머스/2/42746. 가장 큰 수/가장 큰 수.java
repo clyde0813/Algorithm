@@ -1,19 +1,14 @@
 import java.util.*;
+import java.util.stream.*;
 
 class Solution {
     public String solution(int[] numbers) {
-        PriorityQueue<Integer> pq = new PriorityQueue(
-            (o1, o2) -> {
-                String s1 = String.valueOf(o1);
-                String s2 = String.valueOf(o2);
-                return (Integer.valueOf(s2+s1)).compareTo(Integer.valueOf(s1+s2));
-            });
-            
-        
-        for(int n : numbers) pq.add(n);
+        List<String> list = Arrays.stream(numbers).mapToObj(String::valueOf).collect(Collectors.toList());
+        list.sort((s1, s2) -> 
+                  (Integer.valueOf(s2+s1).compareTo(Integer.valueOf(s1+s2))));
         
         StringBuilder sb = new StringBuilder();
-        while(!pq.isEmpty()) sb.append(pq.poll());
+        for(String s : list) sb.append(s);
         
         return (sb.toString().charAt(0)=='0') ? "0" : sb.toString();
     }
