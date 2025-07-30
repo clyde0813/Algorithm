@@ -2,15 +2,17 @@ import java.util.*;
 
 class Solution {
     public int[] solution(int k, int[] score) {
-        int[] leaderboard = new int[k];        
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        
         int[] answer = new int[score.length];
         for(int i=0; i<score.length; i++) {
-            if(i<k || leaderboard[0] < score[i]) {
-                leaderboard[0] = score[i];
-                Arrays.sort(leaderboard);
+            if(i<k || pq.peek() < score[i]) {
+                if(pq.size() >= k) pq.poll();
+                pq.offer(score[i]);
             }
-            answer[i] = (i<k) ? leaderboard[k-i-1] : leaderboard[0];
+            answer[i] = pq.peek();
         }
+        
         return answer;
     }
 }
