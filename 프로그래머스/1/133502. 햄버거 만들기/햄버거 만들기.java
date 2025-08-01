@@ -1,19 +1,19 @@
-import java.util.*;
-
 class Solution {
     public int solution(int[] ingredient) {
-        Deque<Integer> stack = new ArrayDeque<>();
+        int[] stack = new int[ingredient.length];
+        int pointer = -1;
         int answer = 0;
-        
         for(int i : ingredient) {
-            if(stack.isEmpty() && i==1) stack.offer(1);
-            else if(!stack.isEmpty() && stack.peekLast()==3 && i==1) {
+            stack[++pointer] = i;
+            if(pointer >= 3 &&
+               stack[pointer] == 1 &&
+               stack[pointer-1] == 3 &&
+               stack[pointer-2] == 2 &&
+               stack[pointer-3] == 1
+              ) {
                 answer++;
-                for(int j=0; j<3; j++) stack.pollLast();
+                pointer -= 4;
             }
-            else if(!stack.isEmpty() && i==1) stack.offer(1);
-            else if(!stack.isEmpty() && stack.peekLast()==i-1) stack.offer(i);
-            else stack.clear();
         }
         
         return answer;
