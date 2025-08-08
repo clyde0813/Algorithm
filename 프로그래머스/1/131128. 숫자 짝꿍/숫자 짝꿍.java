@@ -1,32 +1,21 @@
-import java.util.*;
-
 class Solution {
     public String solution(String X, String Y) {
-        Map<Integer, Integer> map = new HashMap<>();
-        for(char x : X.toCharArray()) {
-            int xi = x-'0';
-            map.put(xi, map.getOrDefault(xi, 0)+1);
-        }
+        int[] xArr = new int[10];
+        int[] yArr = new int[10];
         
-        List<Integer> match = new ArrayList<>();
-        for(char y : Y.toCharArray()) {
-            int yi = y-'0';
-            if(map.containsKey(yi)) {
-                match.add(yi);
-                if(map.get(yi) == 1) map.remove(yi);
-                else map.put(yi, map.get(yi)-1);
+        for(char x : X.toCharArray()) xArr[x-'0']++;
+        for(char y : Y.toCharArray()) yArr[y-'0']++;
+        
+        StringBuilder sb = new StringBuilder();
+        for(int i=9; i>=0; i--) {
+            if(Math.min(xArr[i], yArr[i])>0) {
+                for(int j=0; j<Math.min(xArr[i], yArr[i]); j++) sb.append(i);
             }
         }
-        if(match.isEmpty()) return "-1"; 
         
-        Collections.sort(match, (m1, m2) -> {
-            return (Integer.valueOf(String.valueOf(m2)+String.valueOf(m1))
-                    .compareTo(Integer.valueOf(String.valueOf(m1)+String.valueOf(m2))));
-        });
-        
-        if(match.get(0)==0) return "0";
-        StringBuilder sb = new StringBuilder();
-        for(int m : match) sb.append(m);
-        return sb.toString();
+        String answer = sb.toString();
+        if(answer.length()==0) return "-1";
+        else if(answer.charAt(0)=='0') return "0";
+        else return answer;
     }
 }
