@@ -9,13 +9,11 @@ class Solution {
             ELEMENTS[elements.length+i] = elements[i];
         }
         
+        int[] dp = new int[elements.length];
         for(int i=1; i<=elements.length; i++) {
             for(int j=0; j<elements.length; j++) {
-                int sum = 0;
-                for(int p=0; p<i; p++) {
-                    sum += ELEMENTS[j+p];
-                }
-                answer.add(sum);
+                dp[j] += ELEMENTS[j+i-1];
+                answer.add(dp[j]);
             }
         }
         
