@@ -6,8 +6,9 @@ class Solution {
         
         for(long i=left; i<=right; i++) {
             int start = (int) (i/n);
-            if(i%n <= start) answer[(int) (i-left)] = start+1;
-            else answer[(int) (i-left)] = (start+1) + (int) ((i%n)-start);
+            int idx = (int) (i-left);
+            if(i%n <= start) answer[idx] = start+1;
+            else answer[idx] = (start+1) + (int) ((i%n)-start);
         }
                 
         return answer;
