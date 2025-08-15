@@ -1,13 +1,20 @@
 class Solution {
+    private int[] numbers;
+    private int target;
+    
     public int solution(int[] numbers, int target) {
-        return dfs(0, 0, numbers, target);
+        this.numbers = numbers;
+        this.target = target;
+        
+        return dfs(0, 0);
     }
     
-    private int dfs(int idx, int value, int[] numbers, int target) {
+    private int dfs(int idx, int value) {
         if(idx==numbers.length) {
             if(value == target) return 1; 
             return 0;
         }
-        return dfs(idx+1, value+numbers[idx], numbers, target) + dfs(idx+1, value-numbers[idx], numbers, target);
+        
+        return dfs(idx+1, value+numbers[idx]) + dfs(idx+1, value-numbers[idx]);
     }
 }
