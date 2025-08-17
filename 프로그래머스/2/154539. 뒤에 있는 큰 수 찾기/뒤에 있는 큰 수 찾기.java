@@ -9,16 +9,15 @@ class Solution {
         for(int i=1; i<numbers.length; i++) {
             int n = numbers[i];
             
-            if(numbers[deque.peek()] >= n) {
+            if(numbers[deque.peekFirst()] >= n) {
                 deque.offerFirst(i);
                 continue;
             }
             
-            while(!deque.isEmpty()) {
-                int temp = numbers[deque.peek()];
-                if(temp >= n) break;
-                if(temp < n) answer[deque.pollFirst()] = n;
-            }
+            while(!deque.isEmpty() && numbers[deque.peekFirst()] < n) {
+                answer[deque.pollFirst()] = n;
+            } 
+            
             deque.offerFirst(i);
         }
         
