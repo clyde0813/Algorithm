@@ -28,8 +28,8 @@ class Solution {
         
         while(number >= 1) {
             int digit = number % n;
-            if(digit>=10) sb.insert(0, (char) ('A' + (digit-10)));
-            else sb.insert(0, digit);
+            if(digit >= 10) sb.insert(0, (char) ('A' + (digit - 10)));
+            if(digit < 10) sb.insert(0, digit);
             number = number / n;
         }
         
