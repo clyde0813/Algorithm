@@ -8,10 +8,7 @@ class Solution {
             StringBuilder sb = new StringBuilder();
             for(int j=idx; j<base.length()+1; j++) {
                 if(j==base.length() || base.charAt(j)=='0') {
-                    if(isPrimeNumber(sb.toString())) {
-                        answer++;
-                    }
-                    
+                    if(isPrimeNumber(sb.toString())) answer++;                    
                     idx = j+1;
                     break;
                 }
