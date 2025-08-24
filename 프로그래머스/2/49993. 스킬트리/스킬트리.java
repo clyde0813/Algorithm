@@ -8,17 +8,12 @@ class Solution {
         int answer = 0;
         for(String s : skill_trees) {
             int idx = 0;
-            boolean flag = true;
-            for(char c : s.toCharArray()) {                
-                if(map.containsKey(c) && map.get(c) != idx) {
-                    flag = false;
-                    break;
-                }
-                if(map.containsKey(c) && map.get(c) == idx) {
-                    idx++;
-                }
+            for(int i=0; i<s.length(); i++) {   
+                char c = s.charAt(i);
+                if(map.containsKey(c) && map.get(c) != idx) break;
+                if(map.containsKey(c) && map.get(c) == idx) idx++;
+                if(i == s.length()-1) answer++;
             }
-            if(flag) answer++;
         }
         
         return answer;
