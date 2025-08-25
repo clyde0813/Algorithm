@@ -63,7 +63,7 @@ class Solution {
     }
     
     private int[] feeMapToAnswer(Map<String, Integer> feeMap) {
-        int[] answer = new int[feeMap.keySet().size()];
+        int[] answer = new int[feeMap.size()];
         List<Integer> keys = new ArrayList(feeMap.keySet());
         Collections.sort(keys);
         
