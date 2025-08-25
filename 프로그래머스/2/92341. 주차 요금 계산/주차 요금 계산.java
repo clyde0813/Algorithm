@@ -2,6 +2,7 @@ import java.util.*;
 
 class Solution {
     private int[] fees;
+    private int LAST = 23 * 60 + 59;
     public int[] solution(int[] fees, String[] records) {
         this.fees = fees;
         Map<String, Integer> timeCountMap = recordsToTimeCountMap(records);
@@ -40,7 +41,7 @@ class Solution {
             for(String key : timeLogMap.keySet()) {
                 int exist = timeCountMap.getOrDefault(key, 0);
                 int inTime = timeLogMap.get(key);
-                timeCountMap.put(key, exist + (1439 - inTime));
+                timeCountMap.put(key, exist + (LAST - inTime));
             }
         }
         
@@ -48,7 +49,7 @@ class Solution {
     }
     
     private Map<String, Integer> timeCountMapToFeeMap(Map<String, Integer> timeCountMap) {
-        Map<String, Integer> feeMap = new HashMap<>();
+        Map<String, Integer> feeMap = new TreeMap<>();
 
         for(String key : timeCountMap.keySet()) {
             int time = timeCountMap.get(key);
@@ -65,11 +66,10 @@ class Solution {
     private int[] feeMapToAnswer(Map<String, Integer> feeMap) {
         int size = feeMap.size();
         int[] answer = new int[size];
-        List<String> keys = new ArrayList(feeMap.keySet());
-        Collections.sort(keys);
         
-        for(int i=0; i<size; i++) {
-            answer[i] = feeMap.get(keys.get(i));
+        int idx = 0;
+        for(String key : feeMap.keySet()) {
+            answer[idx++] = feeMap.get(key);
         }
     
         return answer;
