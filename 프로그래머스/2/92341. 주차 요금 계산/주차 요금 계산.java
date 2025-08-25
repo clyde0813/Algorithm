@@ -70,7 +70,7 @@ class Solution {
         for(int i=0; i<answer.length; i++) {
             answer[i] = feeMap.get(keys.get(i));
         }
-        
+    
         return answer;
     }
 }
