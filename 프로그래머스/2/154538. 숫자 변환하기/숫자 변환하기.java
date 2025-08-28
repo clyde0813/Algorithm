@@ -1,29 +1,32 @@
 import java.util.*;
 
 class Solution {
+    private int y, n;
+    private Queue<Integer> queue = new ArrayDeque<>();
+    private int[] visitedCount = new int[1_000_001];
+    
     public int solution(int x, int y, int n) {
-        int[] visited = new int[1000000];
-        PriorityQueue<int[]> queue = new PriorityQueue<>((o1, o2) -> {
-            if(o1[0] == o2[0]) return o1[1] - o2[1];
-            return o1[0] - o2[0];
-            });
-        queue.offer(new int[]{x, 0});
+        this.y = y;
+        this.n = n;
+        queue.offer(x);
         
         while(!queue.isEmpty()) {
-            int[] temp = queue.poll();
-            int value = temp[0];
-            int cost = temp[1];
+            int value = queue.poll();
+            if(value == y) return visitedCount[value];
             
-            if(value > y) return -1;
-            if(value == y) return cost;
-            if(visited[value] != 0 && visited[value] <= cost) continue;
-            
-            visited[value] = cost++;
-            queue.offer(new int[]{value + n, cost});
-            queue.offer(new int[]{value * 2, cost});
-            queue.offer(new int[]{value * 3, cost});
+            offerQueue(value, value+n);
+            offerQueue(value, value*2);
+            offerQueue(value, value*3);
         }
         
         return -1;
+    }
+    
+    private void offerQueue(int value, int nextValue) {
+        if(nextValue <= y && visitedCount[nextValue] == 0) {
+            queue.offer(nextValue);
+            visitedCount[nextValue] = visitedCount[value] + 1;
+        }
+        return;
     }
 }
