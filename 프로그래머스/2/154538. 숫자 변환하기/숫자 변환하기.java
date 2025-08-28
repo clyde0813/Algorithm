@@ -3,7 +3,10 @@ import java.util.*;
 class Solution {
     public int solution(int x, int y, int n) {
         int[] visited = new int[1000000];
-        Queue<int[]> queue = new LinkedList<>();
+        PriorityQueue<int[]> queue = new PriorityQueue<>((o1, o2) -> {
+            if(o1[0] == o2[0]) return o1[1] - o2[1];
+            return o1[0] - o2[0];
+            });
         queue.offer(new int[]{x, 0});
         
         while(!queue.isEmpty()) {
@@ -11,7 +14,7 @@ class Solution {
             int value = temp[0];
             int cost = temp[1];
             
-            if(value > y) continue;
+            if(value > y) return -1;
             if(value == y) return cost;
             if(visited[value] != 0 && visited[value] <= cost) continue;
             
