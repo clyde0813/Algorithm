@@ -3,7 +3,7 @@ import java.util.*;
 class Solution {
     private int y, n;
     private Queue<Integer> queue = new ArrayDeque<>();
-    private int[] visitedCount = new int[1_000_001];
+    private int[] visitedCount = new int[1_000_000 + 1];
     
     public int solution(int x, int y, int n) {
         this.y = y;
