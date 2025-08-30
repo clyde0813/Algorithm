@@ -51,7 +51,6 @@ class Solution {
         }
         
         if(status) {
-            System.out.println("found! " + " x : " + x + " y : " + y);
             coordinatesToRemove.add(Arrays.asList(y, x));
             for(int[] dir : dirs) coordinatesToRemove.add(Arrays.asList(y+dir[0], x+dir[1]));
         }
