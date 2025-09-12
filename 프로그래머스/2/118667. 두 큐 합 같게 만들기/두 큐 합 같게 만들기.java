@@ -20,7 +20,7 @@ class Solution {
         int i=0, j=n;
         
         int moves = 0;
-        int limit = 3*n;
+        int limit = 2*n+2;
         
         while(moves <= limit) {
             if(sum1 == target) return moves;
