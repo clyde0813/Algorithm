@@ -2,17 +2,14 @@ import java.util.*;
 
 class Solution {
     private char[] charNumbers;
-    private boolean[] isPrime;
     private Set<Integer> answer = new HashSet<>();
     
     public int solution(String numbers) {
         this.charNumbers = numbers.toCharArray();
         
         int n = numbers.length();
-        int max = (int) Math.pow(10, n) - 1;
         boolean[] visited = new boolean[n];
         
-        primeNumberSieve(max);
         dfs(new StringBuilder(), visited);
 
         return answer.size();
@@ -21,7 +18,7 @@ class Solution {
     private void dfs(StringBuilder sb, boolean[] visited) {
         if(sb.length() > 0) {
             int value = Integer.parseInt(sb.toString());
-            if(!answer.contains(value) && isPrime[value]) answer.add(value);
+            if(!answer.contains(value) && isPrime(value)) answer.add(value);
         }
         
         for(int i=0; i<charNumbers.length; i++) {
@@ -35,18 +32,14 @@ class Solution {
         }
     }
     
-    private void primeNumberSieve(int max) {
-        isPrime = new boolean[max+1];
-        Arrays.fill(isPrime, true);
-        isPrime[0] = isPrime[1] = false;
+        private boolean isPrime(int number) {
+        if(number == 0 || number == 1) return false;
         
-        for(int i=2; i<=Math.sqrt(max); i++) {
-            if(isPrime[i]) {
-                for(int j=i*i; j<=max; j+=i) {
-                    isPrime[j] = false;
-                }
-            }
+        for(int i=2; i<=Math.sqrt(number); i++) {
+            if(number % i == 0) return false;
         }
+        
+        return true;
     }
 }
 
