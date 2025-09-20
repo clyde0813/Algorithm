@@ -2,57 +2,59 @@ import java.util.*;
 
 class Solution {
     private char[] charNumbers;
+    private boolean[] isPrime;
     private Set<Integer> answer = new HashSet<>();
     
     public int solution(String numbers) {
-        int n = numbers.length();
-        boolean[] visited = new boolean[n];
         this.charNumbers = numbers.toCharArray();
         
-        for(int i=1; i<=n; i++) {
-            char[] arr = new char[i];
-            
-            dfs(arr, visited, 0);
-        }
+        int n = numbers.length();
+        int max = (int) Math.pow(10, n) - 1;
+        boolean[] visited = new boolean[n];
+        
+        primeNumberSieve(max);
+        dfs(new StringBuilder(), visited);
 
         return answer.size();
     }
     
-    private void dfs(char[] arr, boolean[] visited, int count) {
-        if(count == arr.length) {
-            int value = charArrayToInt(arr);
-            if(isPrime(value)) answer.add(value);
-            return;
+    private void dfs(StringBuilder sb, boolean[] visited) {
+        if(sb.length() > 0) {
+            int value = Integer.parseInt(sb.toString());
+            if(!answer.contains(value) && isPrime[value]) answer.add(value);
         }
         
         for(int i=0; i<charNumbers.length; i++) {
             if(visited[i]) continue;
             
             visited[i] = true;
-            arr[count] = charNumbers[i];
-            dfs(arr, visited, count+1);
+            sb.append(charNumbers[i]);
+            dfs(sb, visited);
+            sb.deleteCharAt(sb.length()-1);
             visited[i] = false;
         }
     }
     
-    private boolean isPrime(int number) {
-        if(number == 0 || number == 1) return false;
+    private void primeNumberSieve(int max) {
+        isPrime = new boolean[max+1];
+        Arrays.fill(isPrime, true);
+        isPrime[0] = isPrime[1] = false;
         
-        for(int i=2; i<=Math.sqrt(number); i++) {
-            if(number % i == 0) return false;
+        for(int i=2; i<=Math.sqrt(max); i++) {
+            if(isPrime[i]) {
+                for(int j=i*i; j<=max; j+=i) {
+                    isPrime[j] = false;
+                }
+            }
         }
-        
-        return true;
-    }
-    
-    private int charArrayToInt(char[] arr) {
-        return Integer.parseInt(new String(arr));
     }
 }
 
 /*
 완전 탐색 문제 인듯 하다
-중복 안되니까 set으로 정답 관리해야 할듯하고
-몇글자 담을지 먼저 정하고 dfs 보내야한다
+
+25.09.30
+에라토스테네스의 체 적용
+이전 7.79ms
 
 */
