@@ -8,7 +8,13 @@ class Solution {
         
         while(count < truck_weights.length) {       
             time++;
-            if(!deque.isEmpty() && deque.peek()[1] == time) {
+            if(deque.size() == bridge_length) {
+                int[] truck = deque.poll();
+                sum -= truck[0];
+                time = truck[1];
+                count++;
+            }
+            else if(!deque.isEmpty() && deque.peek()[1] == time) {
                 sum -= deque.poll()[0];
                 count++;
             }
