@@ -2,7 +2,7 @@ import java.util.*;
 
 class Solution {
     private Map<Integer, List<Integer>> graph = new HashMap<>();
-    private Map<Integer, List<Integer>> depth = new HashMap<>();
+    private int[] depth = new int[50000];
     private PriorityQueue<int[]> pq = new PriorityQueue<>((i1, i2) -> i1[1] - i2[1]);
     private boolean[] visited;
     private int maxDepth = 0;
@@ -19,7 +19,7 @@ class Solution {
         pq.add(new int[]{1, 0});
         bfs();
                 
-        return depth.get(maxDepth).size();
+        return depth[maxDepth];
     }
     
     private void bfs() {
@@ -28,7 +28,7 @@ class Solution {
             int value = node[0];
             int count = node[1];
             
-            depth.computeIfAbsent(count, o -> new ArrayList<>()).add(value);
+            depth[count]++;
             maxDepth = Math.max(maxDepth, count); 
             
             for(int n : graph.get(value)) {
