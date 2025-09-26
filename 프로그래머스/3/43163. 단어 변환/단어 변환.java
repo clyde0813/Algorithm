@@ -2,7 +2,6 @@ import java.util.*;
 
 class Solution {
     private Map<String, List<String>> map = new HashMap<>();
-    private Set<String> visited = new HashSet<>();
     private int length;
     
     public int solution(String begin, String target, String[] words) {
