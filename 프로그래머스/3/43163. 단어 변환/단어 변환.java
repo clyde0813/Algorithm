@@ -3,59 +3,61 @@ import java.util.*;
 class Solution {
     private Map<String, List<String>> map = new HashMap<>();
     private Set<String> visited = new HashSet<>();
-    private int answer = Integer.MAX_VALUE;
     private int length;
     
     public int solution(String begin, String target, String[] words) {
         this.length = begin.length();
-        
         createMap(words);
-        dfs(begin, target, 0);
+        int answer = bfs(begin, target);
         
-        return (answer == Integer.MAX_VALUE) ? 0 : answer;
+        return answer;
     }
     
     private void createMap(String[] words) {
-        
         for(String word : words) {
             for(int i=0; i<length; i++) {
-                StringBuilder key = new StringBuilder();
-                for(int j=0; j<length; j++) {
-                    if(j==i) continue;
-                    
-                    key.append(j).append(word.charAt(j));
-                }
-                map.computeIfAbsent(key.toString(), o -> new ArrayList<>()).add(word);
+                String key = word.substring(0, i) + "*" + word.substring(i+1);
+                map.computeIfAbsent(key, o -> new ArrayList<>()).add(word);
             }
         }
     }
     
-    private void dfs(String begin, String target, int count) {
-        if(begin.equals(target)) {
-            answer = Math.min(answer, count);
-            return;
+    private int bfs(String begin, String target) {
+        Deque<Node> deque = new ArrayDeque<>();
+        Set<String> visited = new HashSet<>();
+        deque.offer(new Node(begin, 0));
+        
+        while(!deque.isEmpty()) {
+            Node current = deque.poll();
+            String word = current.word;
+            int depth = current.depth;
+            
+            if(word.equals(target)) return depth;
+            
+            for(int i=0; i<length; i++) {
+                String key = word.substring(0, i) + "*" + word.substring(i+1);
+                
+                if(!map.containsKey(key)) continue;
+                
+                for(String w : map.get(key)) {
+                    if(visited.contains(w)) continue;
+                    
+                    visited.add(w);
+                    deque.offer(new Node(w, depth + 1));
+                }
+            }
         }
         
-        for(int i=0; i<length; i++) {
-            StringBuilder sb = new StringBuilder();
-            
-            for(int j=0; j<length; j++) {
-                if(j==i) continue;
-                
-                sb.append(j).append(begin.charAt(j));
-            }
-            
-            if(!map.containsKey(sb.toString())) continue;
-            
-            for(String word : map.get(sb.toString())) {
-                if(visited.contains(word)) continue;
-                
-                visited.add(word);
-                dfs(word, target, count+1);
-                visited.remove(word);
-            }
-        }
+        return 0;
+    }
+    
+    static class Node {
+        private String word;
+        private int depth;
         
-        return;
+        public Node(String word, int depth) {
+            this.word = word;
+            this.depth = depth;
+        }
     }
 }
