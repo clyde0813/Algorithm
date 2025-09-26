@@ -16,8 +16,9 @@ class Solution {
     private void createMap(String[] words) {
         for(String word : words) {
             for(int i=0; i<length; i++) {
-                String key = word.substring(0, i) + "*" + word.substring(i+1);
-                map.computeIfAbsent(key, o -> new ArrayList<>()).add(word);
+                StringBuilder key = new StringBuilder();
+                key.append(word.substring(0, i)).append("*").append(word.substring(i+1));
+                map.computeIfAbsent(key.toString(), o -> new ArrayList<>()).add(word);
             }
         }
     }
@@ -35,11 +36,12 @@ class Solution {
             if(word.equals(target)) return depth;
             
             for(int i=0; i<length; i++) {
-                String key = word.substring(0, i) + "*" + word.substring(i+1);
+                StringBuilder key = new StringBuilder();
+                key.append(word.substring(0, i)).append("*").append(word.substring(i+1));
+                                    
+                if(!map.containsKey(key.toString())) continue;
                 
-                if(!map.containsKey(key)) continue;
-                
-                for(String w : map.get(key)) {
+                for(String w : map.get(key.toString())) {
                     if(visited.contains(w)) continue;
                     
                     visited.add(w);
