@@ -6,14 +6,14 @@ class Solution {
         int[][] dirs = {{1,0}, {0,1}, {-1,-1}};
         int dIdx = 0;
         int num = 1;
-        int x = -1, y = 0;
+        int y = -1, x = 0;
         
         for(int step=n; step>0; step--) {
             for(int i=0; i<step; i++) {
-                x += dirs[dIdx][0];
-                y += dirs[dIdx][1];
+                y += dirs[dIdx][0];
+                x += dirs[dIdx][1];
                 
-                int idx = x * (x+1) / 2 + y;
+                int idx = y * (y+1) / 2 + x;
                 answer[idx] = num++;
             }
             dIdx = (dIdx+1) % 3;
