@@ -4,15 +4,12 @@ class Solution {
     private Map<Integer, List<Integer>> linkMap = new HashMap<>();
     private int[][] dp;
     private int[] sales;
-    private int n;
     
     public int solution(int[] sales, int[][] links) {
         this.sales = sales;
-        this.n = sales.length;
-        this.dp = new int[n+1][2];
+        this.dp = new int[sales.length+1][2];
         
         createLinkMap(links);
-
         dfs(1);
         
         return Math.min(dp[1][0], dp[1][1]);
