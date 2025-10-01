@@ -6,22 +6,21 @@ class Solution {
         int start = sequence.length-1;
         int end = sequence.length-1;
         
-        while(true) {
+        while(start >= 0 && end >= 0) {
             if(sum == k) {
-                if(start-1 >= 0 && (sequence[end] == sequence[start-1])) {
-                    end--;
-                    start--;
+                if(start > 0 && sequence[start-1] == sequence[end]) {
+                    sum += sequence[--start];
+                    sum -= sequence[end--];
                     continue;
-                }
+                } 
+                
                 break;
-            }
-            if(sum < k) {
-                sum += sequence[--start];
-            }
-            if(sum > k) {
-                sum -= sequence[end--];
-            }
+            } 
+            
+            if(sum < k) sum += sequence[--start];
+            if(sum > k) sum -= sequence[end--];
         }
+
         
         int[] answer = new int[]{start, end};
         return answer;
