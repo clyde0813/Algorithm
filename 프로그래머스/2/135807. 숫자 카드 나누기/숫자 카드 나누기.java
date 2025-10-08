@@ -3,20 +3,19 @@ import java.util.*;
 class Solution {
     public int solution(int[] arrayA, int[] arrayB) {
         Set<Integer> set = new HashSet<>();
-        
         int min = 0;
         
-        min = Arrays.stream(arrayA).max().getAsInt();
+        min = Arrays.stream(arrayA).min().getAsInt();
         for(int i=min; i>0; i--) {
             if(check(i, arrayA, arrayB)) set.add(i);
         }
         
-        min = Arrays.stream(arrayB).max().getAsInt();
+        min = Arrays.stream(arrayB).min().getAsInt();
         for(int i=min; i>0; i--) {
             if(check(i, arrayB, arrayA)) set.add(i);
         }
         
-        return (set.size() == 0) ? 0 : Collections.max(set);
+        return (set.size() > 0) ? Collections.max(set) : 0;
     }
     
     private boolean check(int num, int[] array1, int[] array2) {
