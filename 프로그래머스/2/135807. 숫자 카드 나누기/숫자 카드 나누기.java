@@ -1,30 +1,52 @@
-import java.util.*;
-
 class Solution {
     public int solution(int[] arrayA, int[] arrayB) {
-        Set<Integer> set = new HashSet<>();
-        int min = 0;
         
-        min = Arrays.stream(arrayA).min().getAsInt();
-        for(int i=min; i>0; i--) {
-            if(check(i, arrayA, arrayB)) set.add(i);
-        }
+        int gcdA = getGCD(arrayA);
+        int gcdB = getGCD(arrayB);
         
-        min = Arrays.stream(arrayB).min().getAsInt();
-        for(int i=min; i>0; i--) {
-            if(check(i, arrayB, arrayA)) set.add(i);
-        }
+        int candidateA = getValidDivisor(gcdA, arrayB);
+        int candidateB = getValidDivisor(gcdB, arrayA);
         
-        return (set.size() > 0) ? Collections.max(set) : 0;
+        return Math.max(candidateA, candidateB);
     }
     
-    private boolean check(int num, int[] array1, int[] array2) {
-        for(int a : array1) if(a%num!=0) return false;
-        for(int a : array2) if(a%num==0) return false;
+    private int getGCD(int[] arr) {
+        int g = arr[0];
+        
+        for(int i=1; i<arr.length; i++) {
+            g = gcd(g, arr[i]);
+        }
+        
+        return g;
+    }
+    
+    private int gcd(int a, int b) {
+        while(b!=0) {
+            int temp = a%b;
+            a = b;
+            b = temp;
+        }
+        
+        return a;
+    }
+    
+    private int getValidDivisor(int num, int[] arr) {
+        int max = 0;
+        
+        for(int i=1; i*i<=num; i++) {
+            if(num%i==0) {
+                if(isValid(i, arr)) max = Math.max(max, i);
+                
+                int pair = num/i;
+                if(isValid(pair, arr)) max = Math.max(max, pair);
+            }
+        }
+        
+        return max;
+    }
+    
+    private boolean isValid(int num, int[] arr) {
+        for(int a : arr) if(a%num==0) return false;
         return true;
     }
 }
-
-/*
-둘다 구해서 교집합 지우고 가장 큰거 뽑으면 되잖아
-*/
